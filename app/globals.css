@@ -25,3 +25,53 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  scroll-behavior: smooth;
+}
+
+ul{
+  list-style: none;
+}
+
+.btn{
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition-duration: 200ms;
+}
+.btn:hover{
+  transform: scale(1.025);
+}
+.btn:active{
+  transform: scale(0.9);
+}
+
+.root-container{
+  width: 1140px;
+  margin: 0 auto;
+}
+::selection{
+  background-color: red;
+  color: #fff;
+}
+
+@media (min-width: 768px) and (max-width:1023px) {
+  .root-container{
+    width: 700px;
+  }
+}
+@media (min-width: 640px) and (max-width:767px) {
+  .root-container{
+    width: 600px;
+  }
+}
+
+@media (max-width: 639px) {
+  .root-container{
+    width: 90%;
+  }
+}
