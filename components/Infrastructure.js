@@ -39,7 +39,7 @@ function Infrastructure(props) {
             list: ["Đồ dùng vệ sinh cá nhân miễn phí"],
         },
         {
-            title: "Tụ nầu nướng",
+            title: "Tự nấu nướng",
             list: ["Ấm đun nước điện"],
         },
         {

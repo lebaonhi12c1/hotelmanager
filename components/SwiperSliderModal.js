@@ -13,7 +13,6 @@ import {VscChromeClose} from 'react-icons/vsc'
 import { useState } from 'react';
 function SwiperSliderModal({initvalue,isOpen,handleClose}) {
     const [acitve,setActive] = useState(initvalue)
-    console.log(acitve)
     return (
         isOpen && 
         <div className='fixed inset-0 bg-black/70 z-40 flex items-center flex-col justify-center gap-10'>

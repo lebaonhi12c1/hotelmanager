@@ -55,8 +55,8 @@ ul{
   margin: 0 auto;
 }
 ::selection{
-  background-color: red;
-  color: #fff;
+  background-color: yellow;
+  color:#000;
 }
 
 @media (min-width: 768px) and (max-width:1023px) {
