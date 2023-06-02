@@ -5,6 +5,7 @@ import Rooms from '@/components/Rooms'
 import Position from '@/components/Position'
 import Evalute from '@/components/Evalute'
 import Overview from '@/components/Overview'
+import QuestionAndAnwser from '@/components/QuestionAndAnwser'
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
               <Rooms/>
               <Position/>
               <Evalute/>
+              <QuestionAndAnwser/>
             </div>
             <div className='lg:flex hidden flex-col gap-4'>
             </div>
