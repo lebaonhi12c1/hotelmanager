@@ -52,7 +52,7 @@ function Infrastructure(props) {
         },
     ];
     return (
-        <div className="flex flex-col gap-4 p-4 bg-white">
+        <div className="flex flex-col gap-4 p-4 bg-white" id="infrastructure">
             <div className="lg:text-[24px] font-bold">Cơ sở vật chất</div>
             <SliderInfrastructure />
             <div className="grid lg:grid-cols-4 grid-cols-1">

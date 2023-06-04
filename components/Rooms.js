@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import CardRoomHome from './CardRoomHome';
 import { uid } from 'uid';
@@ -45,7 +47,7 @@ function Rooms(props) {
         },
     ]
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col' id='room'>
             <div className='text-[24px] font-bold bg-white p-4 border-b'>
                 Phòng và tình trạng phòng trống
             </div>

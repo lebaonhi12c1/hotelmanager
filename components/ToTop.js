@@ -12,7 +12,7 @@ function ToTop(props) {
     {
         const handleScroll = () =>
         {
-            window.scrollY > 500 ? setShow(true) : setShow(false)
+            window.scrollY > 1000 ? setShow(true) : setShow(false)
         }
         window.addEventListener('scroll',handleScroll)
         return () => window.removeEventListener('scroll',handleScroll)
