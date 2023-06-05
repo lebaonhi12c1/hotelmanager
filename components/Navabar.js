@@ -11,7 +11,7 @@ function Navabar(props) {
     const [isMenu,setIsMenu] = useState(false)
     return (
         <div
-            className='bg-white lg:h-[80px] h-[40px] flex items-center shadow-lg shadow-slate-200 relative'
+            className='bg-white lg:h-[80px] h-[40px] flex items-center shadow-lg shadow-slate-200 lg:relative fixed top-0 right-0 left-0 z-50'
         >
             <div 
                 className='root-container flex items-center h-full '

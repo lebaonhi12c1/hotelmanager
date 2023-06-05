@@ -11,7 +11,7 @@ function ModalDetailRoom({isOpen}) {
     const {room} = useSelector(roomSelect)
     return (
         isOpen &&
-        <motion.div className='fixed inset-0 grid grid-cols-1 lg:grid-cols-5 bg-black z-[60]'
+        <motion.div className='fixed inset-0 grid grid-cols-1 lg:grid-cols-5 bg-black z-[70]'
             initial = {
                 {
                     opacity: 0
@@ -62,6 +62,9 @@ function ModalDetailRoom({isOpen}) {
                             Phòng tắm
                         </div>
                     </div>
+                </div>
+                <div className='p-4 rounded-sm bg-primary text-white flex items-center justify-center uppercase hover:shadow-lg hover:shadow-primary/70 duration-150 cursor-pointer'>
+                    Đặt ngay
                 </div>
             </div>
         </motion.div>
