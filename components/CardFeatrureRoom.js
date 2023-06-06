@@ -5,7 +5,7 @@ import Image from "next/image";
 function CardFeatrureRoom({ value }) {
     const formatNumber = number => number.toLocaleString('en-US')
     return (
-        <div className="flex flex-col shadow-md shadow-slate-200">
+        <div className="flex flex-col shadow-md shadow-slate-200 rounded-sm overflow-hidden">
             <div className="h-[220px] relative">
                 <Image
                     src={value.image}

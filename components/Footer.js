@@ -106,7 +106,7 @@ function Footer(props) {
                     </div>
                     <div className='flex flex-col gap-5'>
                         <div className='text-[14px] font-bold uppercase'>
-                            diem den
+                            điểm đến
                         </div>
                         <div className='flex flex-col gap-1'>
                             <Link 

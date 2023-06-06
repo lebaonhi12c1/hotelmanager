@@ -48,7 +48,7 @@ function Rooms(props) {
     ]
     return (
         <div className='flex flex-col' id='room'>
-            <div className='text-[24px] font-bold bg-white p-4 border-b'>
+            <div className='text-[24px] font-bold bg-white p-4 border-b '>
                 Phòng và tình trạng phòng trống
             </div>
             <div className='flex flex-col gap-4'>

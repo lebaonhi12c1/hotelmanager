@@ -15,7 +15,7 @@ function CardRoomHome({ value }) {
         dispatch(setIsShowOn())
     }
     return (
-        <div className="flex flex-col gap-2 bg-white p-4 rounded-md  ">
+        <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-md shadow-slate-400  ">
             <div className="hidden lg:block text-[18px] font-bold">{value?.title}</div>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
                 <div className="flex flex-col gap-4 lg:flex-col-reverse">

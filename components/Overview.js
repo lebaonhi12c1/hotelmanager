@@ -2,7 +2,7 @@ import React from 'react';
 
 function Overview(props) {
     return (
-        <div id='overview' className='bg-white p-4 flex flex-col gap-10'>
+        <div id='overview' className='bg-white p-4 flex flex-col gap-10 rounded-lg shadow-md shadow-slate-400'>
             <div className='flex flex-col gap-2'>
                 <div className='lg:text-[24px] font-bold'>
                     Tổng quát

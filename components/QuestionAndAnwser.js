@@ -4,7 +4,7 @@ import { uid } from "uid";
 
 function QuestionAndAnwser(props) {
     return (
-        <div className="flex flex-col gap-4 bg-white p-4">
+        <div className="flex flex-col gap-4 bg-white p-4 rounded-lg shadow-md shadow-slate-400">
             <div className="text-[24px]">CHTG về The Blue Airport Hotel</div>
             <div className="flex flex-col gap-4">
                 {Array(10)
