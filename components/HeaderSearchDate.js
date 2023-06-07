@@ -6,6 +6,7 @@ import {motion} from 'framer-motion'
 import { useEffect } from "react";
 import ControlPage from "./ControlPage";
 import { useReponsive } from "@/hooks";
+import ClientOption from "./ClientOption";
 function HeaderSearchDate(props) {
     const responesive = useReponsive()
     const [dateValue,setDateValue] = useState({
@@ -73,9 +74,10 @@ function HeaderSearchDate(props) {
                                 />
                             </div>
                         </div>
-                        <div className="border border-slate-900 bg-white p-2">
+                        <div className="border border-slate-900 bg-white p-2 relative">
                             <div className="text-[10px] text-slate-400">Phỏng</div>
                             <div className="flex items-center">3 Khách</div>
+                            {/* <ClientOption isOpen={true}/> */}
                         </div>
                         <div className="bg-secondary text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0">
                             nhận giá
