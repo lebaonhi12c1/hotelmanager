@@ -55,7 +55,7 @@ function CardRoomHome({ value }) {
                 <div className="p-2 bg-primary text-white flex items-cetner justify-center hover:scale-105 active:scale-95 rounded-md select-none shadow-lg shadow-primary/70 uppercase h-fit duration-150 cursor-pointer text-center"
                     onClick={handleShowDetail}
                 >
-                    Thông tin chi tiết về phòng
+                    Khảm khảo thông tin
                 </div>
             </div>
         </div>

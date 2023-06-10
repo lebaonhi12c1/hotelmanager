@@ -1,17 +1,22 @@
 'use client'
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '@/components/Navabar';
 import Footer from '@/components/Footer';
 import HeaderSearchDate from '@/components/HeaderSearchDate';
 import ToTop from '@/components/ToTop';
 import ModalDetailRoom from '@/components/ModalDetailRoom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { roomSelect } from '@/store/reducer/room';
 import HeaderSearchDateMobile from '@/components/HeaderSearchDateMobile';
+import { setUser } from '@/store/reducer/user';
 function DefaultLayout({children}) {
     const {isShow} = useSelector(roomSelect)
-
+    const dispatch = useDispatch()
+    useEffect(()=>
+    {  
+        dispatch(setUser(JSON.parse(localStorage.getItem('user'))))
+    },[])
     return (
         <div>
             <Navbar/>

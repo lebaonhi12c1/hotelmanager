@@ -74,7 +74,7 @@ export default function Home() {
     return (
         <main className="bg-white flex flex-col gap-10">
             <HeadPage />
-            <div className="lg:w-[90%] mx-auto flex flex-col gap-10 bg-slate-200 rounded-sm py-10">
+            <div className="lg:w-fit lg:px-10 mx-auto flex flex-col gap-10 bg-slate-200 rounded-sm py-10">
                 <div className="root-container grid grid-cols-1 lg:grid-cols-7 gap-4">
                     <div className="flex flex-col gap-4 col-span-5">
                         <Overview />

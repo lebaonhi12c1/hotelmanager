@@ -1,10 +1,59 @@
 "use client";
-import { BsGoogle} from "react-icons/bs";
-
+import { getConect } from "@/firebase";
+import { BsGoogle } from "react-icons/bs";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { getAlert } from "@/hooks";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/reducer/user";
 export default async function Login() {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch()
     const handleLogin = async (e) => {
         e.preventDefault();
-        // console.log(e.target[0].value)
+        console.log(e.target[0].value);
+    };
+
+    const handleLoginFirebase = async () => {
+        setLoading(true);
+        getConect();
+        const provider = new GoogleAuthProvider();
+        const auth = getAuth();
+        try {
+            const result = await signInWithPopup(auth, provider)
+            if (result.user && result.user.accessToken) {
+                getAlert("Đăng nhập thành công", "success");
+                localStorage.setItem('user',JSON.stringify(result.user))
+                
+                dispatch(setUser(
+                    {
+                        displayName: result.user.displayName,
+                        photoURL: result.user.photoURL,
+                        token: result.user.accessToken
+                    }
+                ))
+                setTimeout(() => {
+                    router.push("/");
+                    setLoading(false);
+                }, 1500);
+                return;
+            }
+            getAlert(
+                "Có lỗi xảy ra trong quá trình đănh nhập vui lòng thử lại",
+                "error",
+                2000
+            );
+            setLoading(false);
+        } catch (error) {
+            getAlert(
+                "Có lỗi xảy ra trong quá trình đănh nhập vui lòng thử lại",
+                "error",
+                2000
+            );
+            setLoading(false);
+        }
     };
     return (
         <main className=" bg-white flex justify-center lg:p-10 py-10">
@@ -47,16 +96,27 @@ export default async function Login() {
                 </form>
                 <div className="flex items-center gap-[40px]">
                     <div className="border-t border-slate-300 flex-1"></div>
-                    <div className="text-[14px] text-slate-500">Đăng nhập với</div>
+                    <div className="text-[14px] text-slate-500">
+                        Đăng nhập với
+                    </div>
                     <div className="border-t border-slate-300 flex-1"></div>
                 </div>
-                <button className="text-white bg-orange-500 py-2 px-4 rounded-sm uppercase  flex items-center justify-center gap-4 btn hover:shadow-lg hover:shadow-orange-500/70 ">
-                    <BsGoogle />
-                    <span>đăng nhập với google</span>
-                </button>
+
+                {!loading ? (
+                    <button
+                        className="text-white bg-orange-500 py-2 px-4 rounded-sm uppercase  flex items-center justify-center gap-4 btn hover:shadow-lg hover:shadow-orange-500/70 "
+                        onClick={handleLoginFirebase}
+                    >
+                        <BsGoogle />
+                        <span>đăng nhập với google</span>
+                    </button>
+                ) : (
+                    <div className=" self-center w-[25px] h-[25px] border-[4px] rounded-full border-orange-500 border-r-transparent animate-spin"></div>
+                )}
 
                 <div className="text-center text-[12px]">
-                    Bạn có địa điểm và mã PIN cho từng địa điểm trên email của bạn. Nếu bạn có bất kỳ câu hỏi nào khác, vui lòng liên hệ
+                    Bạn có địa điểm và mã PIN cho từng địa điểm trên email của
+                    bạn. Nếu bạn có bất kỳ câu hỏi nào khác, vui lòng liên hệ
                     <br />{" "}
                     <span className="text-primary underline">
                         {" "}

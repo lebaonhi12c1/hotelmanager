@@ -1,21 +1,21 @@
 'use client'
 
+import { filterSelect, setPersonRoom } from '@/store/reducer/filter';
 import React from 'react';
 import { memo } from 'react';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import {AiOutlineMinusCircle,AiOutlinePlusCircle} from 'react-icons/ai'
+import { useDispatch, useSelector } from 'react-redux';
 function ClientOption({isOpen,handleClose}) {
-    
+    const dispatch = useDispatch()
     const [adult,setAdult] = useState(2)
-    const [child,setChild] = useState(1)
-
+    const [child,setChild] = useState(0)
     const handleSetCountAdult = type =>
     {
         switch (type) {
             case 'plus':
                 adult < 4 && setAdult(adult + 1)
-                break
+            break
             case 'minus':
                 adult > 1 && setAdult(adult - 1)
                 break
@@ -23,7 +23,7 @@ function ClientOption({isOpen,handleClose}) {
                 break
         }
     }
-    
+
     const handleSetCountChild = type =>
     {
         switch (type) {
@@ -37,32 +37,25 @@ function ClientOption({isOpen,handleClose}) {
                 break
         }
     }
-    // useEffect(()=>
-    // {
-    //     const handle = (e) =>
-    //     {
-    //         e.stopPropagation()
-    //         handleClose(false)
-    //     }
-    //     document.addEventListener('mousedown',e=>handle(e))
-    //     return () => document.removeEventListener('mousedown',e=>handle(e))
-    // },[])
+
+    const handleSubmit = () =>
+    {
+        dispatch(setPersonRoom({adult,child}))
+        handleClose(false)
+    }
     return (
         isOpen && 
         <div className='flex flex-col gap-4 absolute top-full left-0 rounded-lg z-40 bg-white p-4 w-full shadow-lg shadow-slate-700'
-            onMouseDown={e=>e.stopPropagation()}
+            onClick={e=>e.stopPropagation()}
         >
-            <div className='flex flex-col gap-4'>
-                <div className='font-bold'>
-                    Phòng 1
-                </div>
+            <div className='flex flex-col gap-4'>   
                 <div className='flex items-center gap-4'>
                     <div className='flex flex-col gap-2'>
                         <div className='text-slate-400'>
                             Số lượng khách
                         </div>
                         <div className='flex items-center justify-between border border-slate-200 p-1 rounded-md gap-2'>
-                            <div className={`text-[24px] ${adult > 1 ? 'text-primary' : 'text-slate-400'}`}
+                            <div className={`text-[24px] ${adult > 1 ? 'text-primary' : 'text-slate-400'} select-none`}
                                 onClick={()=>handleSetCountAdult('minus')}
                             >
                                 <AiOutlineMinusCircle/>
@@ -70,7 +63,7 @@ function ClientOption({isOpen,handleClose}) {
                             <div className='text-primary'>
                                 {adult} người lớn
                             </div>
-                            <div className={`text-[24px] ${adult < 4 ? 'text-primary' : 'text-slate-400'}`}
+                            <div className={`text-[24px] ${adult < 4 ? 'text-primary' : 'text-slate-400'} select-none`}
                                 onClick={()=>handleSetCountAdult('plus')}
                             >
                                 <AiOutlinePlusCircle/>
@@ -82,7 +75,7 @@ function ClientOption({isOpen,handleClose}) {
                             Số lượng trẻ em
                         </div>
                         <div className='flex items-center justify-between border border-slate-200 p-1 rounded-md gap-2'>
-                            <div className={`text-[24px] ${child > 1 ? 'text-primary' : 'text-slate-400'}`}
+                            <div className={`text-[24px] ${child > 1 ? 'text-primary' : 'text-slate-400'} cursor-pointer`}
                                 onClick={()=>handleSetCountChild('minus')}
                             >
                                 <AiOutlineMinusCircle/>
@@ -90,7 +83,7 @@ function ClientOption({isOpen,handleClose}) {
                             <div className='text-primary'>
                                 {child} trẻ em
                             </div>
-                            <div className={`text-[24px] ${child < 3 ? 'text-primary' : 'text-slate-400'}`}
+                            <div className={`text-[24px] ${child < 3 ? 'text-primary' : 'text-slate-400'} cursor-pointer`}
                                 onClick={()=>handleSetCountChild('plus')}
                             >
                                 <AiOutlinePlusCircle/>
@@ -99,11 +92,10 @@ function ClientOption({isOpen,handleClose}) {
                     </div>
                 </div>
             </div>
-            <div className='flex items-center gap-4'>
-                <div className='px-4 py-2 rounded-md cursor-pointer hover:bg-primary/75 select-none bg-primary text-white uppercase'>
-                    thêm phòng
-                </div>
-                <div className='px-4 py-2 rounded-md cursor-pointer hover:bg-primary/75 select-none bg-primary text-white uppercase'>
+            <div className='flex items-center gap-4 justify-end'>
+                <div className='px-4 py-2 rounded-md cursor-pointer hover:bg-primary/75 select-none bg-primary text-white uppercase'
+                    onClick={handleSubmit}
+                >
                     áp dụng
                 </div>
             </div>

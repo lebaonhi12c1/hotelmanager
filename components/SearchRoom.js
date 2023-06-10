@@ -1,10 +1,15 @@
 'use client'
 
+import { filterSelect } from '@/store/reducer/filter';
 import React from 'react';
 import { memo } from 'react';
 import { useState } from 'react';
 import {AiOutlineMinusCircle,AiOutlinePlusCircle} from 'react-icons/ai'
+import { useSelector } from 'react-redux';
 function SearchRoom({value}) {
+
+    const {filter, addFilterRooms, removeItemRoomsFilter} = useSelector(filterSelect)
+    console.log(filter)
     const [adult,setAdult] = useState(2)
     const [child,setChild] = useState(1)
 
