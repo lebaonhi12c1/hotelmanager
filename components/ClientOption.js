@@ -8,8 +8,9 @@ import {AiOutlineMinusCircle,AiOutlinePlusCircle} from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux';
 function ClientOption({isOpen,handleClose}) {
     const dispatch = useDispatch()
-    const [adult,setAdult] = useState(2)
-    const [child,setChild] = useState(0)
+    const filter = useSelector(filterSelect)
+    const [adult,setAdult] = useState(filter.adult)
+    const [child,setChild] = useState(filter.child)
     const handleSetCountAdult = type =>
     {
         switch (type) {

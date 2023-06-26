@@ -1,4 +1,5 @@
 
+import { getAlert } from "@/hooks"
 import { createSlice } from "@reduxjs/toolkit"
 import { format } from "date-fns"
 
@@ -15,6 +16,11 @@ const filterReducer = createSlice({
 {
         setStartDate: (state,{payload}) =>
         {
+            if(new Date(state.endDate) < new Date(payload))
+            {
+                getAlert('Ngày bạn chọn không họp lệ', 'error')
+                return state
+            }
             return {
                 ...state,
                 startDate: payload
@@ -22,6 +28,11 @@ const filterReducer = createSlice({
         },
         setEndDate: (state,{payload}) =>
         {
+            if(new Date(state.startDate) > new Date(payload))
+            {
+                getAlert('Ngày bạn chọn không họp lệ', 'error')
+                return state
+            }
             return {
                 ...state,
                 endDate: payload

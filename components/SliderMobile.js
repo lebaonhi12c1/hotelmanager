@@ -8,7 +8,7 @@ import { Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation'
 import { uid } from 'uid';
-function SliderMobile(props) {
+function SliderMobile({height = 250}) {
     return (
         <div className='w-full'>
             <Swiper
@@ -19,7 +19,7 @@ function SliderMobile(props) {
                 {images.map(item=>
                     (
                         <SwiperSlide key={uid(10)}>
-                            <div className='relative h-[250px]'>
+                            <div className='relative' style={{height: height + 'px'}}>
                                 <Image
                                     src={item}
                                     fill={true}

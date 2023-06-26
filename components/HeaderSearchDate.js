@@ -7,14 +7,15 @@ import { useEffect } from "react";
 import ControlPage from "./ControlPage";
 import { useReponsive } from "@/hooks";
 import ClientOption from "./ClientOption";
+import { useDispatch, useSelector } from "react-redux";
+import { filterSelect, setEndDate, setStartDate } from "@/store/reducer/filter";
+import {FiChevronDown} from 'react-icons/fi'
 function HeaderSearchDate(props) {
     const responesive = useReponsive()
-    const [dateValue,setDateValue] = useState({
-        startDate: new Date(),
-        endDate: new Date(),
-    })
+    const dispatch = useDispatch()
+    const filter = useSelector(filterSelect)
     const [isShow, setShow] = useState(false)
-    
+    const [showOption, setShowOption] = useState(false)
     useEffect(()=>
     {
         const handleScroll = () =>
@@ -27,7 +28,7 @@ function HeaderSearchDate(props) {
     return (
         isShow && 
         !responesive &&
-        <motion.div className="flex flex-col fixed top-0 left-0 right-0 z-50 overflow-hidden shadow-md shadow-slate-200"
+        <motion.div className="flex flex-col fixed top-0 left-0 right-0 z-50  shadow-md shadow-slate-200"
             initial={
                 {
                     height: 0,
@@ -51,11 +52,9 @@ function HeaderSearchDate(props) {
                                 </div>
                                 <input
                                     type="date"
+                                    value={filter?.startDate}
                                     onChange={(e) =>
-                                        setDateValue({
-                                            ...dateValue,
-                                            startDate: e.target.value,
-                                        })
+                                       dispatch(setStartDate(e.target.value))
                                     }
                                 />
                             </div>
@@ -65,19 +64,22 @@ function HeaderSearchDate(props) {
                                 </div>
                                 <input
                                     type="date"
+                                    value={filter?.endDate}
                                     onChange={(e) =>
-                                        setDateValue({
-                                            ...dateValue,
-                                            endDate: e.target.value,
-                                        })
+                                       dispatch(setEndDate(e.target.value))
                                     }
                                 />
                             </div>
                         </div>
-                        <div className="border border-slate-900 bg-white p-2 relative">
-                            <div className="text-[10px] text-slate-400">Phỏng</div>
-                            <div className="flex items-center">3 Khách</div>
-                            {/* <ClientOption isOpen={true}/> */}
+                        <div className="border flex items-center justify-between border-slate-900 bg-white p-2 relative"
+                            onClick={()=>setShowOption(!showOption)}
+                        >
+                            <div>
+                                <div className="text-[10px] text-slate-400">Phỏng</div>
+                                <div className="flex items-center">{filter?.adult + filter?.child} khách</div>
+                            </div>
+                            <FiChevronDown/>
+                            {showOption && <ClientOption isOpen={true} handleClose={setShowOption}/>}
                         </div>
                         <div className="bg-secondary text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0">
                             nhận giá

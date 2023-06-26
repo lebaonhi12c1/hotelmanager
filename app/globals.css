@@ -59,19 +59,37 @@ ul{
   color:#000;
 }
 
+.center-mobile-element{
+  margin: 0;
+}
 @media (min-width: 768px) and (max-width:1023px) {
   .root-container{
     width: 700px;
+  
+  }
+  .center-mobile-element
+  {
+    margin-top: 40px;
   }
 }
 @media (min-width: 640px) and (max-width:767px) {
   .root-container{
     width: 600px;
+  
+  }
+  .center-mobile-element
+  {
+    margin-top: 40px;
   }
 }
 
 @media (max-width: 639px) {
   .root-container{
     width: 90%;
+  
+  }
+  .center-mobile-element
+  {
+    margin-top: 40px;
   }
 }

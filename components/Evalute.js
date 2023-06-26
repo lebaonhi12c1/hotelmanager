@@ -3,7 +3,7 @@ import React from "react";
 import {BsPen} from 'react-icons/bs'
 function Evalute(props) {
     return (
-        <div className="flex flex-col gap-4 bg-white p-4 rounded-lg shadow-md shadow-slate-400" id="evalute">
+        <div className="flex flex-col gap-4 bg-white p-4 " id="evalute">
             <div className="font-bold text-[24px]">
                 Đánh giá của khách của The Blue Airport Hotel
             </div>

@@ -5,11 +5,17 @@ import ClientOption from './ClientOption';
 import {FiChevronDown} from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux';
 import { filterSelect, setEndDate, setStartDate } from '@/store/reducer/filter';
+import { useRouter } from 'next/navigation';
 function AcceptPrice(props) {
     const dispatch = useDispatch()
     const filter = useSelector(filterSelect)
-    console.log(filter)
     const [isClientOption,setIsClientOption] = useState(false)
+    
+    const route = useRouter()
+    const handleFilterRooms = () =>
+    {
+        route.push(`/rooms?query=${JSON.stringify(filter)}`)
+    }
     return (
         <div className='flex flex-col gap-4'>
             <div>
@@ -49,7 +55,9 @@ function AcceptPrice(props) {
                     </div>
                 <ClientOption isOpen={isClientOption} handleClose={setIsClientOption}/>
                 </div>
-                <div className='bg-secondary text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0 rounded-sm'>
+                <div className='bg-secondary text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0 rounded-sm hover:bg-secondary/70 cursor-pointer'
+                    onClick={handleFilterRooms}
+                >
                     nhận giá
                 </div>
             </div>

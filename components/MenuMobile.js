@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { VscAccount,VscMail,VscCallIncoming,VscInfo,VscBookmark} from 'react-icons/vsc'
+import {BiBed} from 'react-icons/bi'
 import {motion} from 'framer-motion'
 function MenuMobile({isOpen}) {
     return (
@@ -64,6 +65,37 @@ function MenuMobile({isOpen}) {
             >
                 <VscCallIncoming fontSize={20}/>
                 <div>0123456789</div>
+            </div>
+            <div
+                className='flex flex-col gap-4'
+            >
+               <div
+                    className='flex items-center gap-4 bg-slate-200 p-2'
+                >
+                    <VscInfo fontSize={20}/>
+                    <div>Loại phòng</div>
+                </div>
+                <Link className='flex items-center gap-1'
+                    href={`/category/1`}
+                >
+                    <BiBed/>Loại phòng 1
+                </Link>
+                <Link className='flex items-center gap-1'
+                    href={`/category/2`}
+                >
+                    <BiBed/>Loại phòng 2
+                </Link>
+                <Link className='flex items-center gap-1'
+                    href={`/category/3`}
+                >
+                    <BiBed/>Loại phòng 3
+                </Link>
+                <Link className='flex items-center gap-1'
+                    href={`/category/4`}
+                >
+                    <BiBed/>Loại phòng 4
+                </Link>
+
             </div>
             <div
                 className='flex flex-col gap-4'

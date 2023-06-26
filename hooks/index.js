@@ -35,4 +35,10 @@ const getAlert = (message,type, time=1500, isButton = false) =>
     )
 }
 
-export {useReponsive, getAlert}
+const getFormatPrice = value =>
+{
+    return value.toLocaleString('en-US') + ' VND'
+}
+
+
+export {useReponsive, getAlert, getFormatPrice}
