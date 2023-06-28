@@ -1,10 +1,61 @@
 'use client'
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { getFormatPrice } from '@/hooks';
 import {AiOutlineInfoCircle} from 'react-icons/ai'
+import validator from 'validator';
+import { useDispatch } from 'react-redux';
+import { set_info_payment } from '@/store/reducer/payment';
 function BookingStepOne({handle_set_step}) {
 
+    const dispatch = useDispatch()
+    const [info, set_info] = useState(null)
+    const [validate_email, set_validate_email] = useState(false)
+    const [validate_phone, set_validate_phone] = useState(false)
+    const [validate_empty, set_validate_empty] = useState(
+        {
+            username: true,
+            phone: true,
+            email: true
+        }
+    )
+    const handle_set_username = e =>
+    {
+        set_validate_empty({...validate_empty, username: validator.isEmpty(e.target.value)})
+        set_info({...info, username: e.target.value})
+    }
+
+    const handle_set_email = e =>
+    {
+        console.log(validator.isEmpty(e.target.value))
+        validator.isEmail(e.target.value) ? set_validate_email(false) : set_validate_email(true)
+        set_validate_empty({...validate_empty, email: validator.isEmpty(e.target.value)})
+        set_info({...info, email: e.target.value})
+    }
+    
+    const handle_set_phone = e =>
+    {
+        validator.isMobilePhone(e.target.value) ? set_validate_phone(false) : set_validate_phone(true)
+        set_validate_empty({...validate_empty, phone: validator.isEmpty(e.target.value)})
+        set_info({...info, phone: e.target.value})
+    }
+
+    const handle_next_step = () =>
+    {
+        if(validate_empty.username || validate_empty.email || validate_empty.phone )
+        {
+            window.scrollTo(
+                {
+                    top: 0,
+                    behavior: 'smooth'
+                }
+            )
+            return
+        }
+
+        dispatch(set_info_payment(info))
+        handle_set_step(2)
+    }
     return (
         <div>
             <div className=' flex flex-col gap-10'>
@@ -25,25 +76,44 @@ function BookingStepOne({handle_set_step}) {
                                     name="username"
                                     placeholder="Nhập họ và tên..."
                                     className=" border border-slate-200 rounded-lg py-2 px-4 focus-visible:outline focus-visible:outline-primary focus-within:border-white outline-none  bg-transparent"
+                                    onChange={handle_set_username}
                                 />
                             </div>
                             <div className='flex items-center flex-col lg:flex-row gap-4'>
                                 <div className='flex flex-col gap-2 w-full'>
-                                    <label htmlFor="phone" className=' font-semibold'>Số điện thoại</label>
+                                    <div className='flex items-baseline gap-4'>
+                                        <label htmlFor="phone" className=' font-semibold'>Số điện thoại</label>
+                                        {validate_phone &&
+                                            <div className="text-red-color text-[12px]">
+                                                Số điện thoại không hợp lệ
+                                            </div>    
+                                        }
+                                    </div>
                                     <input
                                         type="text"
                                         name='phone'
                                         placeholder="Số diện thoại..."
-                                        className=" border border-slate-200 rounded-lg py-2 px-4 focus-visible:outline focus-visible:outline-primary focus-within:border-white outline-none  bg-transparent"
+                                        className={` border border-slate-200 rounded-lg py-2 px-4 focus-visible:outline focus-visible:outline-primary focus-within:border-white outline-none  bg-transparent ${validate_phone && ' focus-visible:outline-red-color'}`}
+
+                                        onChange={handle_set_phone}
                                     />
                                 </div>
                                 <div className='flex flex-col gap-2 w-full'>
-                                    <label htmlFor="email" className=' font-semibold'>Email</label>
+                                   <div className='flex items-baseline gap-4'>
+                                        <label htmlFor="email" className=' font-semibold'>Email</label>
+                                        {validate_email &&
+                                            <div className="text-red-color text-[12px]">
+                                                Email của bạn không hợp lệ không hợp lệ
+                                            </div>    
+                                        }
+                                   </div>
                                     <input
                                         type="email"
                                         name='email'
                                         placeholder="Nhập email..."
-                                        className=" border border-slate-200 rounded-lg py-2 px-4 focus-visible:outline focus-visible:outline-primary focus-within:border-white outline-none  bg-transparent"
+                                        className={` border border-slate-200 rounded-lg py-2 px-4 focus-visible:outline focus-visible:outline-primary focus-within:border-white outline-none  bg-transparent ${validate_email && ' focus-visible:outline-red-color'}`}
+
+                                        onChange={handle_set_email}
                                     />
                                 </div>
                             </div>
@@ -167,7 +237,7 @@ function BookingStepOne({handle_set_step}) {
                             </div>
                         </div>
                         <div className='flex justify-end'
-                            onClick={()=>handle_set_step(2)}
+                            onClick={handle_next_step}
                         >
                             <button
                                 className='px-4 py-2 rounded-md bg-red-color text-white hover:shadow-lg hover:shadow-red-color/70 hover:scale-105 active:scale-95 duration-150 select-none'

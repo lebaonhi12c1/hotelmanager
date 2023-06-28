@@ -9,8 +9,6 @@ const payment_reducer = createSlice({
         username: '',
         email: '',
         phone: '',
-        start_date: '',
-        end_date: '',
         start_time: '',
         end_time: '',
         order: '',
@@ -19,10 +17,13 @@ const payment_reducer = createSlice({
     {
         set_info_payment: (state, {payload}) =>
         {
-            state = payload
+            return {
+                ...state,
+                ...payload
+            }
         }
     }
 })
 export const { set_info_payment } = payment_reducer.actions
-export const roomSelect = state => state.payment
+export const paymentSelect = state => state.payment
 export default payment_reducer.reducer
