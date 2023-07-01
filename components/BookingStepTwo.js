@@ -64,7 +64,7 @@ function BookingStepTwo({handle_set_step}) {
                         <div className='flex items-center gap-2'>
                             {info?.service_checkbox.map(item => 
                             (
-                                <div className="" key={uid(10)}>{get_type_service(item)}</div>
+                                <div className="" key={uid(10)}>{get_type_service(item)},</div>
                             )) ||
                                 'Không có yêu cầu'
                             }

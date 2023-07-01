@@ -18,7 +18,7 @@ function LoadingRouter(props) {
         }
         window.addEventListener('beforeunload', handle_beforeunload);
         window.addEventListener('load', handle_load);
-    
+
         return () => {
           window.removeEventListener('beforeunload', handle_beforeunload);
           window.removeEventListener('load', handle_load);

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { roomSelect } from '@/store/reducer/room';
 import HeaderSearchDateMobile from '@/components/HeaderSearchDateMobile';
 import { setUser } from '@/store/reducer/user';
-// import LoadingRouter from '@/components/LoadingRouter';
+import LoadingRouter from '@/components/LoadingRouter';
 function DefaultLayout({children}) {
     const {isShow} = useSelector(roomSelect)
     const dispatch = useDispatch()
@@ -27,7 +27,7 @@ function DefaultLayout({children}) {
             <ToTop/>
             <ModalDetailRoom isOpen = {isShow}/>
             <HeaderSearchDateMobile/>
-            {/* <LoadingRouter/> */}
+            <LoadingRouter/>
         </div>
     );
 }
