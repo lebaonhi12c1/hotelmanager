@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.0.0",
     "@reduxjs/toolkit": "^1.9.5",
     "autoprefixer": "10.4.14",
     "date-fns": "^2.30.0",
@@ -17,11 +18,11 @@
     "firebase": "^9.22.0",
     "framer-motion": "^10.12.16",
     "next": "^13.4.7",
+    "paypal-checkout": "^4.0.338",
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
-    "react-paypal-button-v2": "^2.6.3",
     "react-redux": "^8.0.5",
     "react-tooltip": "^5.14.0",
     "react-validation": "^3.0.7",

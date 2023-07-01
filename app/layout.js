@@ -1,3 +1,4 @@
+
 import ProviderStore from "@/store";
 import "./globals.css";
 import { Inter } from "next/font/google";
@@ -15,7 +16,7 @@ export default function RootLayout({ children }) {
             <body className={inter.className}>
                 <ProviderStore>
                     <DefaultLayout>
-                       <div className="my-4"> {children}</div>
+                        <div className="my-4"> {children}</div>
                     </DefaultLayout>
                 </ProviderStore>
             </body>
