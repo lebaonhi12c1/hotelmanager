@@ -4,11 +4,17 @@ import React, { memo, useState } from 'react';
 import { getFormatPrice } from '@/hooks';
 import {AiOutlineInfoCircle} from 'react-icons/ai'
 import validator from 'validator';
-import { useDispatch } from 'react-redux';
-import { set_info_payment } from '@/store/reducer/payment';
+import { useEffect } from 'react';
 function BookingStepOne({handle_set_step}) {
-
-    const dispatch = useDispatch()
+    const [order, set_order] = useState('')
+    const [time, set_time] = useState(
+        {
+            start_time: '',
+            end_time: '',
+        }
+    )
+    const [service_radio, set_service_radio] = useState('one')
+    const [service_checkbox, set_service_checkbox] = useState([])
     const [info, set_info] = useState(null)
     const [validate_email, set_validate_email] = useState(false)
     const [validate_phone, set_validate_phone] = useState(false)
@@ -27,7 +33,6 @@ function BookingStepOne({handle_set_step}) {
 
     const handle_set_email = e =>
     {
-        console.log(validator.isEmpty(e.target.value))
         validator.isEmail(e.target.value) ? set_validate_email(false) : set_validate_email(true)
         set_validate_empty({...validate_empty, email: validator.isEmpty(e.target.value)})
         set_info({...info, email: e.target.value})
@@ -53,9 +58,64 @@ function BookingStepOne({handle_set_step}) {
             return
         }
 
-        dispatch(set_info_payment(info))
+        if(validate_email || validate_phone)
+        {
+            window.scrollTo(
+                {
+                    top: 0,
+                    behavior: 'smooth'
+                }
+            )
+            return
+        }
+        localStorage.setItem('payment', JSON.stringify(
+            {
+                info,
+                service_checkbox,
+                service_radio,
+                time,
+                order
+            }
+        ))
         handle_set_step(2)
     }
+
+    useEffect(() =>
+    {
+        if(localStorage.getItem('payment'))
+        {
+            const payment = JSON.parse(localStorage.getItem('payment'))
+            set_info(payment.info)
+            set_service_checkbox(payment.service_checkbox)
+            set_service_radio(payment.service_radio)
+            set_order(payment.order)
+            set_time(payment.time)
+        }
+        if(JSON.parse(localStorage.getItem('payment'))?.info)
+        {
+            set_validate_empty(
+                {
+                    username: false,
+                    email: false,
+                    phone: false,
+                }
+            )
+        }
+    },[])
+    
+    const handleCheckboxChange = (event) => 
+    {
+        const { value, checked } = event.target;
+        if (checked) {
+          // Nếu checkbox được chọn, thêm giá trị vào mảng
+          set_service_checkbox([...service_checkbox, value]);
+        } else {
+          // Nếu checkbox bị bỏ chọn, loại bỏ giá trị khỏi mảng
+          const updatedValues = service_checkbox.filter((item) => item !== value);
+          set_service_checkbox(updatedValues);
+        }
+    };
+    
     return (
         <div>
             <div className=' flex flex-col gap-10'>
@@ -76,7 +136,9 @@ function BookingStepOne({handle_set_step}) {
                                     name="username"
                                     placeholder="Nhập họ và tên..."
                                     className=" border border-slate-200 rounded-lg py-2 px-4 focus-visible:outline focus-visible:outline-primary focus-within:border-white outline-none  bg-transparent"
+                                    defaultValue={info?.username}
                                     onChange={handle_set_username}
+
                                 />
                             </div>
                             <div className='flex items-center flex-col lg:flex-row gap-4'>
@@ -95,7 +157,9 @@ function BookingStepOne({handle_set_step}) {
                                         placeholder="Số diện thoại..."
                                         className={` border border-slate-200 rounded-lg py-2 px-4 focus-visible:outline focus-visible:outline-primary focus-within:border-white outline-none  bg-transparent ${validate_phone && ' focus-visible:outline-red-color'}`}
 
+                                        defaultValue={info?.phone}
                                         onChange={handle_set_phone}
+
                                     />
                                 </div>
                                 <div className='flex flex-col gap-2 w-full'>
@@ -113,7 +177,9 @@ function BookingStepOne({handle_set_step}) {
                                         placeholder="Nhập email..."
                                         className={` border border-slate-200 rounded-lg py-2 px-4 focus-visible:outline focus-visible:outline-primary focus-within:border-white outline-none  bg-transparent ${validate_email && ' focus-visible:outline-red-color'}`}
 
+                                        defaultValue={info?.email}
                                         onChange={handle_set_email}
+
                                     />
                                 </div>
                             </div>
@@ -126,14 +192,22 @@ function BookingStepOne({handle_set_step}) {
                            <div className='p-4 rounded-lg flex flex-col gap-4 bg-white'>
                                 <div className=' grid grid-cols-1 lg:grid-cols-2 gap-2' >
                                     <div className='flex items-cetner gap-4'>
-                                        <input type="checkbox" id="no_smoking" />
+                                        <input type="checkbox" id="no_smoking"
+                                            value={'no-smoking'}
+                                            checked={service_checkbox.includes('no-smoking')}
+                                            onChange={handleCheckboxChange}
+                                        />
                                         <label htmlFor="no_smoking">
                                             Không hút thuốc
                                         </label>
                                         
                                     </div>
                                     <div className='flex items-cetner gap-4'>
-                                        <input type="checkbox" id="floor" />
+                                        <input type="checkbox" id="floor"
+                                            value={'floor'}
+                                            checked={service_checkbox.includes('floor')}
+                                            onChange={handleCheckboxChange}
+                                        />
                                         <label htmlFor="floor">
                                             Tần lầu
                                         </label>
@@ -141,7 +215,11 @@ function BookingStepOne({handle_set_step}) {
     
                                     </div>
                                     <div className='flex items-baseline gap-4'>
-                                        <input type="checkbox" id="interconnecting_room" />
+                                        <input type="checkbox" id="interconnecting_room"
+                                            value={'over-rooms'}
+                                            checked={service_checkbox.includes('over-rooms')}
+                                            onChange={handleCheckboxChange}
+                                        />
                                         <label htmlFor="interconnecting_room">
                                             Phòng liên thông
                                         </label>
@@ -151,14 +229,20 @@ function BookingStepOne({handle_set_step}) {
                                         <div> Loại phòng</div>
                                         <div className='flex items-center gap-4'>
                                             <div className='flex items-cetner gap-4'>
-                                                <input type="radio" id="one_bed" name='bed' checked/>
+                                                <input type="radio" id="one_bed" name='bed' checked
+                                                    value={'one'}
+                                                    onChange={e=>set_service_radio(e.target.value)}                                                
+                                                />
                                                 <label htmlFor="one_bed">
                                                     Giường đơn
                                                 </label>
-                                                
+    
                                             </div>
                                             <div className='flex items-cetner gap-4'>
-                                                <input type="radio" id="lg_bed" name='bed'/>
+                                                <input type="radio" id="lg_bed" name='bed'
+                                                    value={'two'}
+                                                    onChange={e=>set_service_radio(e.target.value)}                                                
+                                                />
                                                 <label htmlFor="lg_bed">
                                                     Giường lớn
                                                 </label>
@@ -170,13 +254,17 @@ function BookingStepOne({handle_set_step}) {
                                         <label htmlFor="enter_time">
                                             Giờ nhận phòng
                                         </label>
-                                        <input type="time" id="enter_time" name='enter_time' className='border rounded-lg px-2'/>
+                                        <input type="time" id="enter_time" name='enter_time' className='border rounded-lg px-2'
+                                            onChange={e=>set_time({...time, start_time: e.target.value})}                                        
+                                        />
                                     </div>
                                     <div className='flex flex-col gap-2'>
                                         <label htmlFor="enter_time">
                                             Giờ trả phòng
                                         </label>
-                                        <input type="time" id="enter_time" name='enter_time' className='border rounded-lg px-2'/>
+                                        <input type="time" id="enter_time" name='enter_time' className='border rounded-lg px-2'
+                                            onChange={e=>set_time({...time, end_time: e.target.value})}                                        
+                                        />
                                     </div>
                                 </div>
                                 <div className='flex flex-col gap-4'>
@@ -184,7 +272,9 @@ function BookingStepOne({handle_set_step}) {
                                     <label htmlFor="more">
                                         Khác
                                     </label>
-                                    <textarea name="" id="" rows="5" placeholder='Nhập yêu cầu...' className='p-4 border rounded-lg focus-visible:outline-primary focus-within:border-white'></textarea>
+                                    <textarea name="" id="" rows="5" placeholder='Nhập yêu cầu...' className='p-4 border rounded-lg focus-visible:outline-primary focus-within:border-white'
+                                        onChange={e=>set_order(e.target.value)}
+                                    ></textarea>
                                 </div>
                            </div>
                             

@@ -4,8 +4,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const payment_reducer = createSlice({
     name: 'payment',
-    initialState: 
-    {
+    initialState: {
         username: '',
         email: '',
         phone: '',
@@ -17,6 +16,7 @@ const payment_reducer = createSlice({
     {
         set_info_payment: (state, {payload}) =>
         {
+            
             return {
                 ...state,
                 ...payload

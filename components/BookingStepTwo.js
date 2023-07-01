@@ -1,15 +1,33 @@
 'use client'
 
-import { paymentSelect } from '@/store/reducer/payment';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { uid } from 'uid';
 
 function BookingStepTwo({handle_set_step}) {
-
-    const info = useSelector(paymentSelect)
-
+    const [info, set_info] = useState(null)
+    useEffect(() =>
+    {
+        set_info(JSON.parse(localStorage.getItem('payment')))
+    },[])
+    const get_type_service = value =>
+    {
+        switch (value) {
+            case 'floor':
+                return 'Trên tần'
+            case 'one':
+                return 'Giường đơn'
+            case 'two':
+                return 'Giường đôi'
+        
+            default:
+                break;
+        }
+    }
     return (
         <div className='flex flex-col gap-4'>
+            {JSON.stringify(info)}
             <div className='p-4 bg-white rounded-lg flex flex-col gap-10'>
                 <div className='text-[24px] font-semibold'>
                     Xem lại thông tin đặt phòng
@@ -20,7 +38,7 @@ function BookingStepTwo({handle_set_step}) {
                             Tên khách hàng:
                         </div>
                         <div>
-                            {info.username}
+                            {info?.info?.username || 'Loading...'}
                         </div>
                     </div>
                     <div className='flex items-center'>
@@ -28,7 +46,7 @@ function BookingStepTwo({handle_set_step}) {
                             Số điện thoại:
                         </div>
                         <div>
-                            {info.phone}
+                            {info?.info?.phone || 'Loading...'}
                         </div>
                     </div>
                     <div className='flex items-center'>
@@ -36,7 +54,45 @@ function BookingStepTwo({handle_set_step}) {
                             Email:
                         </div>
                         <div>
-                            {info.email}
+                            {info?.info?.email || 'Loading...'}
+                        </div>
+                    </div>
+                    <div className='flex items-center gap-4'>
+                        <div className=' font-semibold min-w-[150px]'>
+                            Các yêu cầu đặt biệt:
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            {info?.service_checkbox.map(item => 
+                            (
+                                <div className="" key={uid(10)}>{get_type_service(item)}</div>
+                            )) ||
+                                'Không có yêu cầu'
+                            }
+                            {get_type_service(info?.service_radio) || 'Không có yêu cầu'}
+                        </div>
+                    </div>
+                    <div className='flex items-center gap-4'>
+                        <div className=' font-semibold min-w-[150px]'>
+                            Giờ nhận phòng:
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            {info?.time.start_time || 'Không có yêu cầu'}
+                        </div>
+                    </div>
+                    <div className='flex items-center gap-4'>
+                        <div className=' font-semibold min-w-[150px]'>
+                            Giờ trả phòng:
+                        </div>
+                        <div className=''>
+                            {info?.time.end_time || 'Không có yêu cầu'}
+                        </div>
+                    </div>
+                    <div className='flex items-center gap-4'>
+                        <div className=' font-semibold min-w-[150px]'>
+                            Thành tiền:
+                        </div>
+                        <div className='text-red-color'>
+                            {info?.total || 'Loading...'}
                         </div>
                     </div>
                 </div>

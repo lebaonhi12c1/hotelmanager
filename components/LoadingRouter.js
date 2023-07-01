@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react';
-import Router from 'next/router'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { memo } from 'react';
@@ -9,8 +8,21 @@ function LoadingRouter(props) {
     const [loading_route, set_loading_route] = useState(false)
     useEffect(() =>
     {
-        Router.events.on('routeChangeStart', () => set_loading_route(true))
-        Router.events.on('routeChangeComplete', () => set_loading_route(false))
+        const handle_beforeunload = () =>
+        {
+            set_loading_route(true)
+        }
+        const handle_load = () =>
+        {
+            set_loading_route(false)
+        }
+        window.addEventListener('beforeunload', handle_beforeunload);
+        window.addEventListener('load', handle_load);
+    
+        return () => {
+          window.removeEventListener('beforeunload', handle_beforeunload);
+          window.removeEventListener('load', handle_load);
+        };
     },[])
     return (
         loading_route && 
