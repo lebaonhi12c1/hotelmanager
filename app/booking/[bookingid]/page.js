@@ -5,17 +5,28 @@ import BookingStepOne from '@/components/BookingStepOne';
 import CardRoomBooking from '@/components/CardRoomBooking';
 import BookingStepTwo from '@/components/BookingStepTwo';
 import BookingStepThree from '@/components/BookingStepThree';
-import { useCallback } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 function Booking(props) {
-    
     const [step, set_step] = useState(1)
-    
+    const router = useRouter()
     const handle_set_step = useCallback((value) =>
     {   
         set_step(value)
     },[])
 
+    useEffect(
+        () =>
+        {
+            if( JSON.parse( localStorage.getItem( 'cart' ) ).length > 0 )
+            {
+                return
+            }
+            router.push( '/' )
+        },
+        [router]
+    )
 
     const get_step_component = () =>
     {

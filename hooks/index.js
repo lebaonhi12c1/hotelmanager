@@ -23,7 +23,7 @@ const useReponsive = () => {
 };
 
 
-const getAlert = (message,type, time=1500, isButton = false) =>
+const getAlert = (message = 'Có lỗi xảy ra trong quá trình thực hiện',type = 'error', time=1500, isButton = false) =>
 {
     Swal.fire(
         {
@@ -37,8 +37,46 @@ const getAlert = (message,type, time=1500, isButton = false) =>
 
 const getFormatPrice = value =>
 {
+    if(check_empty(value))
+    {
+        return 0 + ' VND'
+    }
     return value.toLocaleString('en-US') + ' VND'
 }
 
+const check_empty = value =>
+{
+    // Kiểm tra giá trị null hoặc undefined
+    if (value === null || typeof value === 'undefined') {
+        return true;
+    }
 
-export {useReponsive, getAlert, getFormatPrice}
+    // Kiểm tra chuỗi rỗng
+    if (typeof value === 'string' && value.trim() === '') {
+        return true;
+    }
+
+    // Kiểm tra mảng rỗng
+    if (Array.isArray(value) && value.length === 0) {
+        return true;
+    }
+
+    // Kiểm tra đối tượng rỗng
+    if (typeof value === 'object' && Object.keys(value).length === 0) {
+        return true;
+    }
+
+    return false;
+}
+
+
+/*Hàm tính khoảng cách giữa 2 ngày trong javascript*/
+const get_day_of_time = (d1, d2) => {
+    const date2 = new Date(d2)
+    const date1 = new Date(d1)
+    let ms1 = date1.getTime();
+    let ms2 = date2.getTime();
+    return Math.ceil((ms2 - ms1) / (24*60*60*1000));
+};
+
+export {useReponsive, getAlert, getFormatPrice, check_empty, get_day_of_time}

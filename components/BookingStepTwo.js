@@ -1,5 +1,6 @@
 'use client'
 
+import { getFormatPrice } from '@/hooks';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -27,12 +28,11 @@ function BookingStepTwo({handle_set_step}) {
     }
     return (
         <div className='flex flex-col gap-4'>
-            {JSON.stringify(info)}
             <div className='p-4 bg-white rounded-lg flex flex-col gap-10'>
                 <div className='text-[24px] font-semibold'>
                     Xem lại thông tin đặt phòng
                 </div>
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 bg-slate-100 rounded-lg p-4'>
                     <div className='flex items-center'>
                         <div className=' font-semibold min-w-[150px]'>
                             Tên khách hàng:
@@ -91,8 +91,8 @@ function BookingStepTwo({handle_set_step}) {
                         <div className=' font-semibold min-w-[150px]'>
                             Thành tiền:
                         </div>
-                        <div className='text-red-color'>
-                            {info?.total || 'Loading...'}
+                        <div className='text-red-color font-medium'>
+                            {getFormatPrice( info?.total ) || 'Loading...'}
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,9 @@ function BookingStepTwo({handle_set_step}) {
                     Quay lại
                 </div>
                 <div className='px-4 py-2 rounded-md bg-red-color text-white hover:shadow-lg hover:shadow-red-color/70 hover:scale-105 active:scale-95 duration-150 select-none'
-                    onClick={() => handle_set_step(3)}
+                    onClick={
+                        () => handle_set_step(3)
+                    }
                 >
                     Tiếp tục
                 </div>

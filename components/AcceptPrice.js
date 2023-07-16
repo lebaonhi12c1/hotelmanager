@@ -1,16 +1,14 @@
 'use client'
 
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import ClientOption from './ClientOption';
 import {FiChevronDown} from 'react-icons/fi'
-import { useDispatch, useSelector } from 'react-redux';
-import { filterSelect, setEndDate, setStartDate } from '@/store/reducer/filter';
 import { useRouter } from 'next/navigation';
+import { filterContext } from '@/context/filter';
+import { format } from 'date-fns';
 function AcceptPrice(props) {
-    const dispatch = useDispatch()
-    const filter = useSelector(filterSelect)
+    const {filter, setFilter} = useContext(filterContext)
     const [isClientOption,setIsClientOption] = useState(false)
-    
     const route = useRouter()
     const handleFilterRooms = () =>
     {
@@ -27,13 +25,34 @@ function AcceptPrice(props) {
                         <div className='text-[10px] text-slate-400'>
                             Nhận phòng
                         </div>
-                        <input type="date" value={filter.startDate} onChange={e=>dispatch(setStartDate(e.target.value))} />
+                        <input
+                            type='date'
+                            defaultValue={filter.startDate}
+                            onChange={(e)=>{
+                                setFilter(
+                                    {
+                                        ...filter,
+                                         startDate: e.target.value
+                                    }
+                                )
+                            }}
+                        />
                     </div>
                     <div className=' border border-slate-400 p-2 w-full'>
                         <div className='text-[10px] text-slate-400'>
                             Trả phòng
                         </div>
-                        <input type="date" value={filter.endDate} onChange={e=>dispatch(setEndDate(e.target.value))} />
+                        <input type="date" 
+                            defaultValue={filter.endDate}
+                            onChange={(e)=>{
+                                setFilter(
+                                    {
+                                        ...filter,
+                                         endDate: e.target.value
+                                    }
+                                )
+                            }}
+                        />
                     </div>
                 </div>
                 <div className={`border border-slate-400 p-2 rounded-sm relative cursor-pointer ${isClientOption && 'bg-primary text-white'}`}
@@ -55,7 +74,7 @@ function AcceptPrice(props) {
                     </div>
                 <ClientOption isOpen={isClientOption} handleClose={setIsClientOption}/>
                 </div>
-                <div className='bg-secondary text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0 rounded-sm hover:bg-secondary/70 cursor-pointer'
+                <div className='bg-primary text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0 rounded-lg hover:shadow-primary/70 hover:shadow-lg duration-150 active:scale-95 select-none cursor-pointer'
                     onClick={handleFilterRooms}
                 >
                     nhận giá

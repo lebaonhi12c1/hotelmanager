@@ -1,12 +1,16 @@
 'use client'
 
+import { get_data } from '@/hooks/api';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import { memo } from 'react';
 import { useState } from 'react';
+import useSWR from 'swr'
+import { uid } from 'uid';
 
 function SubNav(props) {
+    const {data} = useSWR(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/api/room-type`, get_data)
     const [category_hover, set_category_hover] = useState(false)
     const route = usePathname()
     const getActive = value =>
@@ -23,7 +27,7 @@ function SubNav(props) {
             >
                 Trang chủ
             </Link>
-            <div className={`relative cursor-pointer ${getActive('category') && 'bg-primary text-white'} py-1 px-4 hover:bg-primary/70 hover:text-white`}
+            <div className={`relative cursor-pointer ${getActive('rooms') && 'bg-primary text-white'} py-1 px-4 hover:bg-primary/70 hover:text-white`}
                 onMouseEnter={() => set_category_hover(true)}
                 onMouseLeave={() => set_category_hover(false)}
             >
@@ -33,26 +37,17 @@ function SubNav(props) {
                     <div className='flex flex-col gap-2 absolute top-full left-0 bg-white p-4 w-[300px] shadow-lg shadow-slate-200 font-thin z-[60]'
 
                     >
-                        <Link className=" italic text-slate-400 hover:text-primary"
-                            href={`/category/1`}
-                        >
-                            Loại phòng 1
-                        </Link>
-                        <Link className=" italic text-slate-400 hover:text-primary"
-                            href={`/category/2`}
-                        >
-                            Loại phòng 2
-                        </Link>
-                        <Link className=" italic text-slate-400 hover:text-primary"
-                            href={`/category/3`}
-                        >
-                            Loại phòng 3
-                        </Link>
-                        <Link className=" italic text-slate-400 hover:text-primary"
-                            href={`/category/4`}
-                        >
-                            Loại phòng 4
-                        </Link>
+                        {
+                            data?.map(item=>
+                            (
+                                <Link className=" italic text-slate-400 hover:text-primary"
+                                    href={`/rooms/${item._id}`}
+                                    key={uid(10)}
+                                >
+                                    {item.name}
+                                </Link>
+                            ))
+                        }
                     </div>
                 )}
             </div>

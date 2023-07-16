@@ -1,18 +1,14 @@
 'use client'
 
-import { setIsShowOn, setRoom } from "@/store/reducer/room";
 import Image from "next/image";
 import React from "react";
 import { memo } from "react";
-import { useDispatch } from "react-redux";
 import { uid } from "uid";
 
 function CardRoomHome({ value }) {
-    const dispatch = useDispatch()
     const handleShowDetail = () =>
     {   
-        dispatch(setRoom(value))
-        dispatch(setIsShowOn())
+        console.log('')
     }
     return (
         <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-md shadow-slate-400  ">

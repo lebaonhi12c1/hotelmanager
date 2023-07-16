@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { memo } from 'react';
 function LoadingRouter(props) {
+    // THU LAM HIEU UNG CHUYEN TRANG BANG FRAMER MOTION
     const [loading_route, set_loading_route] = useState(false)
     useEffect(() =>
     {

@@ -1,12 +1,14 @@
 'use client'
 
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import { getFormatPrice } from '@/hooks';
 import {AiOutlineInfoCircle} from 'react-icons/ai'
 import validator from 'validator';
 import { useEffect } from 'react';
+import { cartContext } from '@/context/cart';
 function BookingStepOne({handle_set_step}) {
     const [order, set_order] = useState('')
+    const { total } = useContext( cartContext )
     const [time, set_time] = useState(
         {
             start_time: '',
@@ -74,7 +76,8 @@ function BookingStepOne({handle_set_step}) {
                 service_checkbox,
                 service_radio,
                 time,
-                order
+                order,
+                total: total,
             }
         ))
         handle_set_step(2)
@@ -297,7 +300,7 @@ function BookingStepOne({handle_set_step}) {
                                         Thành tiền 
                                     </div>
                                     <div className=' font-semibold text-red-color'>
-                                        {getFormatPrice(1000000)}
+                                        {getFormatPrice(total)}
                                     </div>
                                 </div>
                                 <div className='flex gap-2 pb-4 border-b'>
@@ -310,18 +313,10 @@ function BookingStepOne({handle_set_step}) {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className=' font-semibold'>
-                                        roomtilte 
-                                    </div>
-                                    <div className=' font-semibold '>
-                                        {getFormatPrice(1000000)}
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <div className=' font-semibold'>
                                         Thuế và phí
                                     </div>
                                     <div className=' font-semibold '>
-                                        {getFormatPrice(1000000)}
+                                        {getFormatPrice(0)}
                                     </div>
                                 </div>
                             </div>

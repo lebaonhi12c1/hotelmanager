@@ -1,16 +1,14 @@
 'use client'
 
-import { filterSelect, setPersonRoom } from '@/store/reducer/filter';
-import React from 'react';
+import { filterContext } from '@/context/filter';
+import React, { useContext } from 'react';
 import { memo } from 'react';
 import { useState } from 'react';
 import {AiOutlineMinusCircle,AiOutlinePlusCircle} from 'react-icons/ai'
-import { useDispatch, useSelector } from 'react-redux';
 function ClientOption({isOpen,handleClose}) {
-    const dispatch = useDispatch()
-    const filter = useSelector(filterSelect)
-    const [adult,setAdult] = useState(filter.adult)
-    const [child,setChild] = useState(filter.child)
+    const {setFilter} = useContext(filterContext)
+    const [adult,setAdult] = useState(1)
+    const [child,setChild] = useState(0)
     const handleSetCountAdult = type =>
     {
         switch (type) {
@@ -32,7 +30,7 @@ function ClientOption({isOpen,handleClose}) {
                 child < 3 && setChild(child + 1)
                 break
             case 'minus':
-                child > 1 && setChild(child - 1)
+                child > 0 && setChild(child - 1)
                 break
             default:
                 break
@@ -41,7 +39,11 @@ function ClientOption({isOpen,handleClose}) {
 
     const handleSubmit = () =>
     {
-        dispatch(setPersonRoom({adult,child}))
+        setFilter({
+            ...filterContext.filter,
+            adult:adult,
+            child:child
+        })
         handleClose(false)
     }
     return (
@@ -76,7 +78,7 @@ function ClientOption({isOpen,handleClose}) {
                             Số lượng trẻ em
                         </div>
                         <div className='flex items-center justify-between border border-slate-200 p-1 rounded-md gap-2'>
-                            <div className={`text-[24px] ${child > 1 ? 'text-primary' : 'text-slate-400'} cursor-pointer`}
+                            <div className={`text-[24px] ${child > 0 ? 'text-primary' : 'text-slate-400'} cursor-pointer`}
                                 onClick={()=>handleSetCountChild('minus')}
                             >
                                 <AiOutlineMinusCircle/>

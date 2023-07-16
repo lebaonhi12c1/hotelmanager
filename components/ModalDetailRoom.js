@@ -4,11 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import {GrClose} from 'react-icons/gr'
 import {motion} from 'framer-motion'
-import { useDispatch, useSelector } from 'react-redux';
-import { roomSelect, setIsShowOff } from '@/store/reducer/room';
 function ModalDetailRoom({isOpen}) {
-    const dispatch = useDispatch()
-    const {room} = useSelector(roomSelect)
     return (
         isOpen &&
         <motion.div className='fixed inset-0 grid grid-cols-1 lg:grid-cols-5 bg-black z-[70]'
@@ -34,7 +30,6 @@ function ModalDetailRoom({isOpen}) {
                     />
                 </div>
                 <div className='absolute bg-white text-[24px] rounded-full p-2 top-4 right-4 cursor-pointer'
-                    onClick={()=>dispatch(setIsShowOff())}
                 >
                     <GrClose/>
                 </div>

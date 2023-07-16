@@ -7,13 +7,9 @@ import { useEffect } from "react";
 import ControlPage from "./ControlPage";
 import { useReponsive } from "@/hooks";
 import ClientOption from "./ClientOption";
-import { useDispatch, useSelector } from "react-redux";
-import { filterSelect, setEndDate, setStartDate } from "@/store/reducer/filter";
 import {FiChevronDown} from 'react-icons/fi'
 function HeaderSearchDate(props) {
     const responesive = useReponsive()
-    const dispatch = useDispatch()
-    const filter = useSelector(filterSelect)
     const [isShow, setShow] = useState(false)
     const [showOption, setShowOption] = useState(false)
     useEffect(()=>
@@ -52,10 +48,6 @@ function HeaderSearchDate(props) {
                                 </div>
                                 <input
                                     type="date"
-                                    value={filter?.startDate}
-                                    onChange={(e) =>
-                                       dispatch(setStartDate(e.target.value))
-                                    }
                                 />
                             </div>
                             <div className=" border border-slate-900 p-2 w-full bg-white">
@@ -64,10 +56,6 @@ function HeaderSearchDate(props) {
                                 </div>
                                 <input
                                     type="date"
-                                    value={filter?.endDate}
-                                    onChange={(e) =>
-                                       dispatch(setEndDate(e.target.value))
-                                    }
                                 />
                             </div>
                         </div>
@@ -76,7 +64,7 @@ function HeaderSearchDate(props) {
                         >
                             <div>
                                 <div className="text-[10px] text-slate-400">Phỏng</div>
-                                <div className="flex items-center">{filter?.adult + filter?.child} khách</div>
+                                <div className="flex items-center">2 khách</div>
                             </div>
                             <FiChevronDown/>
                             {showOption && <ClientOption isOpen={true} handleClose={setShowOption}/>}

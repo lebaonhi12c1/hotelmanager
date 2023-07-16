@@ -4,16 +4,65 @@ import { BsGoogle } from "react-icons/bs";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getAlert } from "@/hooks";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/store/reducer/user";
-export default async function Login() {
+import { useContext, useEffect, useState } from "react";
+import { post_data } from "@/hooks/api";
+import Link from "next/link";
+import { userContext } from "@/context/user";
+export default function Login() {
+    const {set_user_info}= useContext(userContext)
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch()
+    const [loading_user_pwd, set_loading_user_pwd] = useState(false)
+
+    useEffect(
+        () => 
+        {
+            if(localStorage.getItem('user'))
+            {
+                router.push('/')
+            }
+        },
+        [router]
+    )
+
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log(e.target[0].value);
+        set_loading_user_pwd(true)
+        const result = await post_data(
+            `${process.env.NEXT_PUBLIC_APP_SERVER_URL}/api/customer/login`,
+            {
+                username: e.target[0].value,
+                password: e.target[1].value
+            }
+        )
+        if(result.status !== 200)
+        {
+            getAlert(result.message)
+            set_loading_user_pwd(false)
+            return
+        }
+        
+        set_user_info(
+            {
+                ...result.data.user,
+                displayName: result.data.user.name,
+                photoURL: result.data.user.image? result.data.user.image : 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?w=1380&t=st=1688480006~exp',
+                token: result.data.token
+            }
+        )
+        localStorage.setItem('user',JSON.stringify(
+            {
+                ...result.data.user,
+                displayName: result.data.user.name,
+                photoURL: result.data.user.image? result.data.user.image : 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?w=1380&t=st=1688480006~exp',
+                token: result.data.token
+            }
+        ))
+        getAlert(result.message,'success')
+        setTimeout(() => {
+            router.push('/')
+            set_loading_user_pwd(false)
+        }, (2000));
     };
 
     const handleLoginFirebase = async () => {
@@ -25,13 +74,20 @@ export default async function Login() {
             const result = await signInWithPopup(auth, provider)
             if (result.user && result.user.accessToken) {
                 getAlert("Đăng nhập thành công", "success");
-                localStorage.setItem('user',JSON.stringify(result.user))
-                
-                dispatch(setUser(
+                set_user_info(
                     {
+                        ...result.user,
                         displayName: result.user.displayName,
                         photoURL: result.user.photoURL,
-                        token: result.user.accessToken
+                        token: result.user.accessToken,
+                    }
+                )
+                localStorage.setItem('user',JSON.stringify(
+                    {
+                        ...result.user,
+                        displayName: result.user.displayName,
+                        token: result.user.accessToken ,
+                        photoURL: result.user.photoURL,
                     }
                 ))
                 setTimeout(() => {
@@ -55,10 +111,17 @@ export default async function Login() {
             setLoading(false);
         }
     };
+
     return (
-        <main className=" bg-white flex justify-center lg:p-10 py-10">
-            <div className="bg-white rounded-sm shadow-lg shadow-slate-400 flex flex-col gap-[30px] lg:px-[60px] p-[20px] m-[16px] lg:py-[20px] w-[100%] lg:w-[600px] h-fit ">
-                <div className="text-[30px] font-normal">Đăng nhập</div>
+
+        <main className=" bg-white flex justify-center lg:p-10 py-10"
+
+        >
+            <div className="bg-white rounded-lg shadow-lg shadow-slate-400 flex flex-col gap-[30px] lg:px-[60px] p-[20px] m-[16px] lg:py-[20px] w-[100%] lg:w-[600px] h-fit ">
+                <div className="flex items-baseline justify-between">
+                    <div className="text-[30px] font-normal">Đăng nhập</div>
+                    <Link href={'/register'} className="text-white bg-primary hover:scale-105 hover:shadow-lg hover:shadow-primary/70 duration-150 rounded-md px-4 py-2 active:scale-95">Đăng ký</Link>
+                </div>
                 <div>Hãy nhập tài khoản và mật khẩu để đăng nhập</div>
                 <form
                     className="flex flex-col lg:gap-[30px] gap-[16px] w-full"
@@ -90,8 +153,14 @@ export default async function Login() {
                             required
                         />
                     </div>
-                    <button className="text-white bg-primary py-2 px-4 rounded-sm uppercase font-bold">
-                        Đăng nhập
+                    <button className="text-white bg-primary hover:scale-105 hover:shadow-lg hover:shadow-primary/70 duration-150 py-2 px-4 rounded-md uppercase font-bold active:scale-95 flex items-center justify-center">
+                        {
+                            loading_user_pwd? (
+                                <div className="animate-spin w-[25px] h-[25px] border-[4px] rounded-full border-white border-r-transparent"></div>
+                            ) : (
+                                "Đăng nhập"
+                            )
+                        }
                     </button>
                 </form>
                 <div className="flex items-center gap-[40px]">

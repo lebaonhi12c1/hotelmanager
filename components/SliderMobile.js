@@ -8,7 +8,8 @@ import { Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation'
 import { uid } from 'uid';
-function SliderMobile({height = 250}) {
+import ImageConainer from './ImageConainer';
+function SliderMobile({height = 250, data = images}) {
     return (
         <div className='w-full'>
             <Swiper
@@ -16,21 +17,19 @@ function SliderMobile({height = 250}) {
                 navigation
                 slidesPerView={1}
             >
-                {images.map(item=>
-                    (
-                        <SwiperSlide key={uid(10)}>
-                            <div className='relative' style={{height: height + 'px'}}>
-                                <Image
-                                    src={item}
-                                    fill={true}
-                                    loading='lazy'
-                                    alt='room-img'
-                                    className='object-cover'
-                                />
-                            </div>
-                        </SwiperSlide>
-                    )
-                )}
+                {data.map(item=>
+                        (
+                            <SwiperSlide key={uid(10)}>
+                                <div className='relative' style={{height: height + 'px'}}>
+                                    <ImageConainer
+                                        value = { item }
+                                    />
+                                </div>
+                            </SwiperSlide>
+                        )
+                    ) ||
+                    'Loading...'
+                }
             </Swiper>
         </div>
     );

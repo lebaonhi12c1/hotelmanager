@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 
 import {
     VscSearch,
@@ -12,19 +12,22 @@ import MenuMobile from "./MenuMobile";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { clearUser, userSelect } from "@/store/reducer/user";
 import { getAuth, signOut } from "firebase/auth";
 import { getConect } from "@/firebase";
 import { getAlert } from "@/hooks";
 import { useRouter } from "next/navigation";
 import SubNav from "./SubNav";
+import { userContext } from "@/context/user";
+import { cartContext } from "@/context/cart";
+import { BiBed } from 'react-icons/bi'
+import ImageConainer from "./ImageConainer";
 function Navabar(props) {
+    const {cart} = useContext(cartContext)
+    const {user, set_user_info} = useContext(userContext)
     const [isMenu, setIsMenu] = useState(false);
     const [search, setSearch] = useState(false);
-    const user = useSelector(userSelect);
+    const [ user_option, set_user_option ] = useState( false )
     const router = useRouter()
-    const ditpatch = useDispatch()
     const handleLogOut = async() =>
     {
         getConect()
@@ -37,6 +40,14 @@ function Navabar(props) {
             getAlert('Thất bại vui lòng thử lại','error')
         }   
     }
+
+    const handle_logout_user_pwd = () =>
+    {
+        localStorage.clear()
+        set_user_info(null)
+        router.push('/')
+    }
+
     return (
         <div className="bg-white shadow-lg shadow-slate-200">
             <div className="bg-white lg:h-[80px] h-[40px] flex items-center  lg:relative fixed top-0 right-0 left-0 z-50">
@@ -72,21 +83,42 @@ function Navabar(props) {
                             </div>
                         </div>
                         {user ? (
-                            <div className="flex items-center gap-1 relative">
-                                <img src={user.photoURL} alt={user.displayName} className="w-[24px] h-[24px] rounded-full object-cover" />
+                            <div className="flex items-center gap-1 relative"
+                                onMouseEnter={ () => set_user_option( true ) }
+                                onMouseLeave={ () => set_user_option( false ) }
+                            >
+                                <ImageConainer
+                                    value = { user.photoURL }
+                                    height = { 24 }
+                                    width = { 24 }
+                                />
                                 <div className="text-primary">
                                     {user.displayName}
                                 </div>
-                                <div className="absolute flex flex-col gap-2 bg-white top-full left-0 rounded-lg shadow-lg shadow-slate-300 w-[200px] p-4">
-                                    <div className="hover:text-primary hover:underline cursor-pointer" >
-                                        Phòng đã đặt
-                                    </div>
-                                    <div  className="hover:text-primary hover:underline cursor-pointer"
-                                        onClick={handleLogOut}
-                                    > 
-                                        Đăng xuất
-                                    </div>
-                                </div>
+                                {
+                                    user_option &&
+                                    (
+                                        <div className="absolute flex flex-col gap-2 bg-white top-full left-0 rounded-lg shadow-lg shadow-slate-300 w-[200px] p-4">
+                                            {/* <div className="hover:text-primary hover:underline cursor-pointer" >
+                                                Phòng đã đặt
+                                            </div> */}
+                                            <Link
+                                                href={ '/profile' }
+                                            >
+                                                <div  className="hover:text-primary hover:underline cursor-pointer"
+                                                    
+                                                > 
+                                                    Trang cá nhân
+                                                </div>
+                                            </Link>
+                                            <div  className="hover:text-red-color hover:underline cursor-pointer"
+                                                onClick={handle_logout_user_pwd}
+                                            > 
+                                                Đăng xuất
+                                            </div>
+                                        </div>
+                                    )
+                                }
                             </div>
                         ) : (
                             <Link
@@ -97,12 +129,27 @@ function Navabar(props) {
                                 <div>Đăng nhập</div>
                             </Link>
                         )}
-                        <div className="h-full px-4 flex items-center hover:bg-slate-200">
-                            03261852147
-                        </div>
-                        <div className="h-full px-4 flex items-center hover:bg-slate-200">
-                            hotel@gmail.com
-                        </div>
+                        <Link href={'/cart'}>
+                            <div
+                                className="relative hover:text-primary"
+                            >
+                                <div
+                                    className="flex items-center gap-2"                                
+                                >
+                                    <BiBed
+                                        className="text-[24px]"
+                                    />
+                                    <div>
+                                        Phòng bạn đã chọn
+                                    </div>
+                                </div>
+                                <div
+                                    className="w-fit px-2 rounded-md text-[12px] bg-red-color text-white absolute top-0 left-full flex items-center justify-center"
+                                >
+                                    { cart.length }
+                                </div>
+                            </div>
+                        </Link>
                     </div>
                     <div onClick={() => setIsMenu(!isMenu)} className="lg:hidden">
                         {isMenu ? (

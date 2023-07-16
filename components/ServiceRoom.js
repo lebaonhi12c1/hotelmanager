@@ -3,6 +3,7 @@ import {MdOutlineBedroomChild,MdWifi,MdOutlineFreeBreakfast,MdSevereCold,MdOutli
 import {FaSmokingBan} from 'react-icons/fa'
 import {HiOutlineReceiptRefund} from 'react-icons/hi'
 import {AiOutlineSchedule} from 'react-icons/ai'
+import {BsCaretLeftSquareFill} from 'react-icons/bs'
 function ServiceRoom({value}) {
 
     
@@ -21,16 +22,16 @@ function ServiceRoom({value}) {
                 )
             case 'two-one':
                 return (
-                    <div className="flex text-green-500 font-bold items-center gap-2">
+                    <div className="flex text-green-500 items-center gap-2">
                         <MdOutlineBedroomChild/>
                         <div>
                             1 Giường X2
                         </div>
                     </div>
                 )
-            case 'wifi':
+            case 'Wifi':
                 return (
-                    <div className="flex text-green-500 font-bold items-center gap-2">
+                    <div className="flex text-green-500 items-center gap-2">
                         <MdWifi/>
                         <div>
                             Wifi miễn phí
@@ -39,7 +40,7 @@ function ServiceRoom({value}) {
                 )
             case 'no-smoking':
                 return (
-                    <div className="flex text-green-500 font-bold items-center gap-2">
+                    <div className="flex text-green-500 items-center gap-2">
                         <FaSmokingBan/>
                         <div>
                             Không hút thuốc
@@ -48,16 +49,25 @@ function ServiceRoom({value}) {
                 )
             case 'no-breakfast':
                 return (
-                    <div className="flex items-center font-bold gap-2 text-slate-400">
+                    <div className="flex items-center gap-2 text-slate-400">
                         <MdOutlineFreeBreakfast/>
                         <div>
                             Không bao gồm bữa sáng
                         </div>
                     </div>
                 )
+            case 'breakfast':
+                return (
+                    <div className="flex items-center gap-2 text-green-400">
+                        <MdOutlineFreeBreakfast/>
+                        <div>
+                            Bứa sáng miễn phí
+                        </div>
+                    </div>
+                )
             case 'unrefund':
                 return (
-                    <div className="flex items-center font-bold gap-2  text-slate-400">
+                    <div className="flex items-center gap-2  text-slate-400">
                         <HiOutlineReceiptRefund/>
                         <div>
                             Không hoàn trả
@@ -66,7 +76,7 @@ function ServiceRoom({value}) {
                 )
             case 'no-schedule-change':
                 return (
-                    <div className="flex items-center font-bold gap-2 text-slate-400">
+                    <div className="flex items-center gap-2 text-slate-400">
                         <AiOutlineSchedule/>
                         <div>
                             Không thay đổi lịch
@@ -75,7 +85,7 @@ function ServiceRoom({value}) {
                 )
             case 'air-conditioner':
                 return (
-                    <div className="flex items-center font-bold gap-2 text-primary">
+                    <div className="flex items-center gap-2 text-primary">
                         <MdSevereCold/>
                         <div>
                             Máy lạnh
@@ -84,7 +94,7 @@ function ServiceRoom({value}) {
                 )
             case 'hot-water':
                 return (
-                    <div className="flex items-center font-bold gap-2 text-red-color">
+                    <div className="flex items-center gap-2 text-red-color">
                         <MdOutlineWaterDrop/>
                         <div>
                             Nước nóng
@@ -93,10 +103,19 @@ function ServiceRoom({value}) {
                 )
             case 'voucher'    :
                 return (
-                    <div className="flex items-center font-bold gap-2 text-primary">
+                    <div className="flex items-center gap-2 text-primary">
                         <MdOutlineSell/>
                         <div>
                             Khuyến mãi
+                        </div>
+                    </div>
+                )
+                case 'tv'    :
+                return (
+                    <div className="flex items-center gap-2 text-slate-500">
+                        <BsCaretLeftSquareFill/>
+                        <div>
+                            Tivi
                         </div>
                     </div>
                 )
