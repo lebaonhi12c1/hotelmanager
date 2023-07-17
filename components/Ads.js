@@ -9,9 +9,9 @@ const Ads = memo(() => {
     const { total } = useContext(cartContext)
     return (
         <div
-            className='flex flex-col gap-4'
+            className='flex flex-col gap-4 w-full'
         >
-           {
+           {/* {
                 total > 0 && 
                 (
                     <div
@@ -27,7 +27,7 @@ const Ads = memo(() => {
                         </div>
                     </div>
                 )
-           }
+           } */}
            <div
                 className='flex flex-col gap-2 bg-white rounded-lg p-4'
            >

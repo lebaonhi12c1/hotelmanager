@@ -6,6 +6,7 @@ import { getFormatPrice, get_day_of_time } from '@/hooks';
 import {AiOutlineUsergroupAdd} from 'react-icons/ai'
 import { cartContext } from '@/context/cart';
 import { filterContext } from '@/context/filter';
+import { getToastError } from '@/hooks/toast';
 
 const CardFilterRoomChild = memo(({value}) => {
     const { filter } = useContext( filterContext )
@@ -18,11 +19,29 @@ const CardFilterRoomChild = memo(({value}) => {
         }
         return value * count
     }
+
+    const handle_add_cart = ( value ) =>
+    {
+        if( !localStorage.getItem( 'user' ))
+        {
+            getToastError( 'Bạn phải đăng nhập dể được chọn phòng')
+            return 
+        }
+        console.log(value)
+        handle_add_item(
+
+            {
+                ...filter,
+                ...value,
+                price: getPrice(value?.price, get_day_of_time(filter.startDate, filter.endDate)),
+            }
+        )
+    }
     return (
         <div
             className='flex flex-col gap-4 p-4 bg-white rounded-lg'
         >
-            {JSON.stringify(value)}
+            {/* {JSON.stringify(value)} */}
             <div className='flex flex-col gap-2'>
                 <div className='text-[20px] font-medium'>
                     {value.name}
@@ -48,22 +67,34 @@ const CardFilterRoomChild = memo(({value}) => {
             <div
                 className='border-y py-4 flex flex-col lg:flex-row lg:justify-between'
             >
-                <div
-                    className='flex gap-4 flex-wrap'
+                <div 
+                    className='flex flex-col gap-4'
                 >
-                    {
-                        value?.utilities?.map(
-                            item => 
-                            {
-                                return (
-                                    <ServiceRoom
-                                        value={ item }
-                                        key={item._id}
-                                    />
-                                )
-                            }
-                        )
-                    }
+                    <div
+                        className='flex gap-4 flex-wrap'
+                    >
+                        {
+                            value?.utilities?.map(
+                                item => 
+                                {
+                                    return (
+                                        <ServiceRoom
+                                            value={ item }
+                                            key={item._id}
+                                        />
+                                    )
+                                }
+                            )
+                        }
+    
+                    </div>
+                    <div
+                        className='text-slate-500 italic'
+                    >
+                        {
+                            value?.description
+                        }
+                    </div>
                 </div>
                 <div
                     className='flex flex-col gap-1 text-right'
@@ -159,15 +190,7 @@ const CardFilterRoomChild = memo(({value}) => {
                         <div
                             className='px-4 py-2 rounded-lg bg-red-color text-white hover:shadow-lg hover:shadow-red-color/70 duration-150 text-center active:scale-95'
                             onClick={
-                                () => {
-                                    handle_add_item(
-                                        {
-                                            ...filter,
-                                            ...value,
-                                            price: getPrice(value?.price, get_day_of_time(filter.startDate, filter.endDate)),
-                                        }
-                                    )
-                                }
+                                () => handle_add_cart( value )
                             }
                         >
                             Chọn phòng

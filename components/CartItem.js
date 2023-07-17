@@ -5,20 +5,28 @@ import ImageConainer from './ImageConainer';
 import ServiceRoom from './ServiceRoom';
 import Button from './Button';
 import { uid } from 'uid';
+import { useRouter } from 'next/navigation';
+import { getFormatPrice } from '@/hooks';
 const CartItem = memo(({value}) => {
-    const  { handle_remove_item} = useContext(cartContext)
+    const  { handle_remove_item, set_item_payment} = useContext(cartContext)
+    const router = useRouter()
+    const handle_set_item_payment = ( value ) =>
+    {
+        set_item_payment(value)
+        router.push( '/booking/room' )
+    }
     return (
         <div
-            className='flex flex-col gap-4 bg-white rounded-lg py-4'
+            className='flex flex-col gap-4 bg-white rounded-lg p-4 border-t'
         >
             <div
-                className='grid grid-cols-1 lg:grid-cols-3 gap-4'
+                className='grid grid-cols-1 lg:grid-cols-3 gap-y-4 lg:gap-4'
             >
                 <div 
 
                 >
                     <ImageConainer
-                        value={value?.image}
+                        value={value?.ImageRooms[0].value }
                         height={200}
                     />
                 </div>
@@ -86,22 +94,41 @@ const CartItem = memo(({value}) => {
                         >
 
                         </div>
-                        {/* <div
-                            className=' bg-red-color py-1 px-4 w-fit rounded-md text-white cursor-pointer'
-                            onClick={
-                                () => handle_remove_item(value)
-                            }
-                        >
-                            Xóa
-                        </div> */}
                         <div
-                            className='mt-auto' 
+                            className='flex items-center gap-4'
                         >
-                            <Button
-                                heading = 'Xóa'
-                                type = 'danger'
-                                handler = { () => handle_remove_item(value) }
-                            />
+                            <span>
+                                Giá:
+                            </span>
+                            <span
+                                className='text-red-color text-[20px] font-medium'
+                            >
+                                {
+                                    getFormatPrice(  value?.price )
+                                }
+                            </span>
+                        </div>
+                        <div 
+                            className='flex items-center gap-4 mt-auto'
+                        >
+                            <div
+                            >
+                                <Button
+                                    heading = 'Xóa'
+                                    type = 'danger'
+                                    handler = { () => handle_remove_item(value) }
+                                />
+                            </div>
+                            <div
+                            >
+                                <Button
+                                    heading = 'Đặt ngay'
+                                    type = 'primary'
+                                    handler = { 
+                                        () => handle_set_item_payment( value )
+                                     }
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

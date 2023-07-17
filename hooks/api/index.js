@@ -40,6 +40,11 @@ const post_data = async (url, payload) =>
         )
         
         const data = await res.json()
+  
+        if (!data)
+        {
+            return false
+        }
         return data
         
     } catch (error) {

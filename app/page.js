@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import HeadPage from "@/components/HeadPage";
 import Infrastructure from "@/components/Infrastructure";
@@ -8,6 +10,9 @@ import Overview from "@/components/Overview";
 import QuestionAndAnwser from "@/components/QuestionAndAnwser";
 import SliderRoom from "@/components/SliderRoom";
 import { MdOutlineWatchLater, MdKeyboardReturn, MdPets, MdLocationPin, MdOutlineAirplanemodeActive,MdTrain,MdDirectionsBus } from "react-icons/md";
+import { useEffect, useState } from "react";
+import Map from "@/components/Map";
+import { post_data } from "@/hooks/api";
 export default function Home() {
     const data = [
         {
@@ -71,6 +76,47 @@ export default function Home() {
             ],
         },
     ];
+
+    // const post = async() =>
+    // {
+    //     for (let index = 0; index < 4; index++) {
+    //         var res = await post_data( 'http://localhost:8800/api/room', 
+    //         {
+    //             "code": "ROOM001" + index,
+    //             "name": "Standard Room" + index,
+    //             "description": "A comfortable room with basic amenities.",
+    //             "price": 55000,
+    //             "image": [
+    //                 {
+    //                     valueId: index,
+    //                     value: 'https://img.freepik.com/free-photo/sofa-living-room-with-copy-space_43614-869.jpg?w=996&t=st=1689555721~exp=1689556321~hmac=2265d3ca5d96ee2853c339e37830c512dfc9db4d1b2819ba03f60ac2d46ddecc',
+
+    //                 },
+    //                 {
+    //                     valueId: index + 1,
+    //                     value: 'https://img.freepik.com/free-photo/sofa-living-room-with-copy-space_43614-869.jpg?w=996&t=st=1689555721~exp=1689556321~hmac=2265d3ca5d96ee2853c339e37830c512dfc9db4d1b2819ba03f60ac2d46ddecc',
+    //                 },
+    //             ],
+    //             "capacity": 2,
+    //             "roomType": 1, // Chỉ số id của loại phòng trong bảng RoomTypes
+    //             "employee": 1, // Chỉ số id của nhân viên trong bảng Employees
+    //             "status": "published",
+    //         },
+    //         console.log(res)
+    //     )
+            
+    //     }
+    // }
+    
+    // useEffect(
+    //     () =>
+    //     {
+    //         post()
+    //     }
+    //     ,[]
+    // )
+
+    const [ map, set_map ] = useState( false )
     return (
         <main className="bg-white flex flex-col gap-10">
             <HeadPage />
@@ -101,7 +147,9 @@ export default function Home() {
                                     loading="lazy"
                                     className="object-cover"
                                 />
-                                <div className="p-2 text-center text-white bg-primary rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 uppercase">
+                                <div className="p-2 text-center text-white bg-primary rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 uppercase"
+                                    onClick={ () => set_map( true ) }
+                                >
                                     Xem bản đồ
                                 </div>
                             </div>
@@ -212,6 +260,10 @@ export default function Home() {
             <div className="root-container">
                 <SliderRoom heading={"Phòng được đặt nhiều nhất"} data={data} />
             </div>
+            <Map
+                is_open = { map }
+                handleClose = { set_map }
+            />
         </main>
     );
 }

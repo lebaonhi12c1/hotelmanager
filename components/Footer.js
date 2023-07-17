@@ -2,8 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 import {VscCallIncoming,VscMail} from 'react-icons/vsc'
 import {BsFacebook,BsInstagram,BsTwitter} from 'react-icons/bs'
-import footerlogo from '../public/images/paymentfooter.png'
+import footerlogo from '../public/images/PayPal.svg.png'
 import Image from 'next/image';
+import ImageConainer from './ImageConainer';
 function Footer(props) {
     return (
         <div className='bg-white py-[40px]'>
@@ -247,13 +248,11 @@ function Footer(props) {
                     </div>
                 </div>
             </div>
-            <div className='border-t mt-4 border-slate-400'>
-                <div className='relative h-[80px]'>
-                    <Image
-                        src={footerlogo}
-                        fill={true}
-                        alt='image-payment-logo'
-                        className='object-contain'
+            <div className='border-t mt-4 border-slate-400 flex justify-center pt-4'>
+                <div className='relative h-[80px] w-[200px]'>
+                    <ImageConainer
+                        value = { footerlogo }
+                        object_fit = 'contain'
                     />
                 </div>
             </div>

@@ -1,11 +1,18 @@
+'use client'
+
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import {BsPen} from 'react-icons/bs'
+import ControlReview from "./ControlReview";
+import ListComent from "./ListComent";
 function Evalute(props) {
+
+    const [ open_control, set_open_control ] = useState( false )
+
     return (
         <div className="flex flex-col gap-4 bg-white p-4 " id="evalute">
             <div className="font-bold text-[24px]">
-                Đánh giá của khách của The Blue Airport Hotel
+                Đánh giá của khách của Khách Sạn QN
             </div>
             <div className="flex items-center gap-4">
                 <div className="w-fit p-2 bg-green-400 text-white rounded-md rounded-br-none">
@@ -29,7 +36,11 @@ function Evalute(props) {
                 <div className="text-center">
                     Chia sẻ kinh nghiệm của bạn với chúng tôi.
                 </div>
-                <div className="flex items-center p-2 rounded-md gap-2 text-primary border border-primary hover:scale-105 active:scale-95 duration-150 cursor-pointer">
+                <div className="flex items-center p-2 rounded-md gap-2 text-primary border border-primary hover:scale-105 active:scale-95 duration-150 cursor-pointer"
+                    onClick={
+                        () => set_open_control( true )
+                    }
+                >
                     <div>
                         <BsPen/>
                     </div>
@@ -37,6 +48,10 @@ function Evalute(props) {
                         Viết bình luận
                     </div>
                 </div>
+                <ControlReview
+                    is_open = { open_control }
+                />
+                <ListComent/>
             </div>
         </div>
     );

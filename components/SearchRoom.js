@@ -7,7 +7,7 @@ import {AiOutlineMinusCircle,AiOutlinePlusCircle} from 'react-icons/ai'
 function SearchRoom({value}) {
 
     const [adult,setAdult] = useState(2)
-    const [child,setChild] = useState(1)
+    const [child,setChild] = useState(0)
 
     const handleSetCountAdult = type =>
     {
@@ -30,7 +30,7 @@ function SearchRoom({value}) {
                 child < 3 && setChild(child + 1)
                 break
             case 'minus':
-                child > 1 && setChild(child - 1)
+                child > 0 && setChild(child - 1)
                 break
             default:
                 break
@@ -66,7 +66,7 @@ function SearchRoom({value}) {
                     Số lượng trẻ em
                 </div>
                 <div className='flex items-center justify-between border border-slate-200 p-1 rounded-md'>
-                    <div className={`text-[24px] ${child > 1 ? 'text-primary' : 'text-slate-400'}`}
+                    <div className={`text-[24px] ${child > 0 ? 'text-primary' : 'text-slate-400'}`}
                         onClick={()=>handleSetCountChild('minus')}
                     >
                         <AiOutlineMinusCircle/>

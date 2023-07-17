@@ -6,10 +6,19 @@ import { cartContext } from '@/context/cart';
 import { getToastError } from '@/hooks/toast';
 import { post_data } from '@/hooks/api';
 import { CREATE_ORDER } from '@/api_variables';
-import { getAlert } from '@/hooks';
+import { check_empty, getAlert } from '@/hooks';
+import { userContext } from '@/context/user';
 function BookingStepThree({handle_set_step}) {
-    const { total, cart } = useContext(cartContext)
+    const { item_payment } = useContext(cartContext)
+    const { user } = useContext( userContext )
+    const get_payment_amount = (item_payment, vnd, service_total) =>
+    {
+        console.log(item_payment, vnd, service_total)
+        return (( ( item_payment + service_total ) / vnd ) * 0.3).toFixed(2)
+    }
+
     const createOrder = async (data, actions) => {
+
         const res = await fetch('https://v6.exchangerate-api.com/v6/40fb119e5ebbd8258531a310/latest/USD')
         const vnd = await res.json()
         if( !vnd.conversion_rates.VND )
@@ -17,12 +26,20 @@ function BookingStepThree({handle_set_step}) {
             getToastError( 'Lỗi hệ thống trong quá trình chuyển đổi tiền tệ ')
             return
         }
+
         return actions.order
             .create({
                 purchase_units: [
                     {
                         amount: {
-                            value: (total/vnd.conversion_rates.VND).toFixed(2),
+                            value: get_payment_amount(
+                                item_payment.price,
+                                vnd.conversion_rates.VND,
+                                JSON.parse( localStorage.getItem('payment'))?.services?.reduce(
+                                    ( total, item ) => total + Number(item.amount),
+                                    0
+                                )
+                            )
                         },
                     },
                 ],
@@ -43,32 +60,42 @@ function BookingStepThree({handle_set_step}) {
             getToastError('Lỗi không nhận được dữ liệu thanh toán')
             return
         }
-        const info_payment = JSON.parse( localStorage.getItem( 'payment' ) )
+
+        console.log(order)
         const result = await post_data( 
             CREATE_ORDER,
             {
-                room: cart.map(
-                    item => 
-                    {
-                        return {
-                            ...item,
-                            checkInDate: item.startDate,
-                            checkOutDate: item.endDate,
-                        }
-                    }
-                ),
-                employeeId: '',
-                name: info_payment.info.username,
-                email:  info_payment.info.email,
-                phone: info_payment.info.phone,
-                additionalServices: [],
-                price: total,
-                order_paypal_id: order.id
+                customer: user.id,
+                room: item_payment.id,
+                checkInDate: item_payment.startDate,
+                checkOutDate: item_payment.endDate,
+                paymentAmount: ( item_payment.price +  JSON.parse( localStorage.getItem('payment'))?.services?.reduce(
+                    ( total, item ) => total + Number(item.amount),
+                    0
+                )) * 0.3,
+                total: ( item_payment.price +  JSON.parse( localStorage.getItem('payment'))?.services?.reduce(
+                    ( total, item ) => total + Number(item.amount),
+                    0
+                )),
+                services: JSON.parse( localStorage.getItem('payment')).services || []
             }    
         )
         
+        if( check_empty( result ))
+        {
+            console.log('1')
+            getAlert(
+                result.message, 
+                'error', 
+                5000,
+                true
+            )
+            return;
+        }
         if( !result )
         {
+            console.log('2')
+
             getAlert(
                 `Có lỗi xảy ra trong quá trình tiếp nhận đơn đơn đặt phòng của bạn, nếu bạn đã thanh toán vui lòng cung cấp mã đơn đặt phòng ${ order.id } thông qua email hoặc số điện thoại để chúng tôi tiến hành hoàn tiền`, 
                 'error', 
@@ -77,17 +104,21 @@ function BookingStepThree({handle_set_step}) {
             )
             return;
         }
-
         if( !result.success ) 
         {
+            console.log('3')
+
             getAlert(
                 result.message, 
                 'error', 
                 5000,
                 true
             )
+            return
         }
+        localStorage.removeItem( 'payment' )
         getAlert( result.message, 'success', 5000, true)
+
         return
     };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import { VscListSelection, VscClearAll } from "react-icons/vsc";
 import { BsCalendar2Date } from "react-icons/bs";
 import MenuMobile from "./MenuMobile";
@@ -10,8 +10,13 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import ModalAcceptPrice from "./ModalAcceptPrice";
+import { filterContext } from "@/context/filter";
+import { BiBed } from 'react-icons/bi'
+import { cartContext } from "@/context/cart";
 function HeaderSearchDateMobile(props) {
     const reponesive = useReponsive();
+    const { filter } = useContext( filterContext )
+    const { cart } = useContext( cartContext )
     const [index,setIndex] = useState('overview')
     const [isMenu, setIsMenu] = useState(false);
 
@@ -35,46 +40,68 @@ function HeaderSearchDateMobile(props) {
                             onClick={()=>setIsShowModalAcceptPrice(true)}
                         >
                             <div>
-                                10/20/23 -
+                                { filter.startDate } -
                             </div>
                             <div>
-                                10/20/23
+                                { filter.endDate }
                             </div>
                             <BsCalendar2Date className="text-primary" />
                         </div>
-                        <div
-                            onClick={() => setIsMenu(!isMenu)}
-                            className="lg:hidden text-white"
+                        <div 
+                            className=" flex items-center gap-4 lg:hidden"
                         >
-                            {isMenu ? (
-                                <motion.div
-                                    initial={{
-                                        opacity: 0,
-                                    }}
-                                    animate={{
-                                        opacity: 1,
-                                    }}
-                                    exit={{
-                                        opacity: 0,
-                                    }}
+                            <Link 
+                                    href={ '/cart' }
+                            >
+                                <div 
+                                    className="relative text-white"
                                 >
-                                    <VscClearAll fontSize={20} />
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    initial={{
-                                        opacity: 0,
-                                    }}
-                                    animate={{
-                                        opacity: 1,
-                                    }}
-                                    exit={{
-                                        opacity: 0,
-                                    }}
-                                >
-                                    <VscListSelection fontSize={20} />
-                                </motion.div>
-                            )}
+                                    <BiBed
+                                        className="text-[24px]"
+                                    />
+                                    <div
+                                        className=" absolute top-0 right-full w-fit bg-red-color rounded-md text-[12px] text-white px-1"
+                                    >
+                                        {
+                                            cart.length
+                                        }   
+                                    </div>
+                                </div>
+                            </Link>
+                            <div
+                                onClick={() => setIsMenu(!isMenu)}
+                                className="lg:hidden text-white"
+                            >
+                                {isMenu ? (
+                                    <motion.div
+                                        initial={{
+                                            opacity: 0,
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                        }}
+                                        exit={{
+                                            opacity: 0,
+                                        }}
+                                    >
+                                        <VscClearAll fontSize={20} />
+                                    </motion.div>
+                                ) : (
+                                    <motion.div
+                                        initial={{
+                                            opacity: 0,
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                        }}
+                                        exit={{
+                                            opacity: 0,
+                                        }}
+                                    >
+                                        <VscListSelection fontSize={20} />
+                                    </motion.div>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <MenuMobile isOpen={isMenu} />

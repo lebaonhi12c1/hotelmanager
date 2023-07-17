@@ -1,17 +1,40 @@
 'use client'
 
+import { cartContext } from '@/context/cart';
 import { getFormatPrice } from '@/hooks';
-import React from 'react';
+import { get_data } from '@/hooks/api';
+import { getToastError } from '@/hooks/toast';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { uid } from 'uid';
 
 function BookingStepTwo({handle_set_step}) {
     const [info, set_info] = useState(null)
+    const { item_payment } = useContext( cartContext )
     useEffect(() =>
     {
         set_info(JSON.parse(localStorage.getItem('payment')))
     },[])
+
+
+    const handle_submit = async() =>
+    {
+        const check =
+        {
+            startDate: item_payment.startDate,
+            endDate: item_payment.endDate,
+            id: item_payment.id
+        }
+        const res = await get_data(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/api/filter/room/available?${new URLSearchParams(check)}`)
+        if(res == true)
+        {
+            handle_set_step(3)
+            return
+        }
+        getToastError( 'Phòng này vừa có người đặt trước bạn')
+        return
+    }
     const get_type_service = value =>
     {
         switch (value) {
@@ -61,30 +84,33 @@ function BookingStepTwo({handle_set_step}) {
                         <div className=' font-semibold min-w-[150px]'>
                             Các yêu cầu đặt biệt:
                         </div>
-                        <div className='flex items-center gap-2'>
-                            {info?.service_checkbox.map(item => 
-                            (
-                                <div className="" key={uid(10)}>{get_type_service(item)},</div>
-                            )) ||
-                                'Không có yêu cầu'
+                        <div className='flex items-center gap-4'>
+                            {
+                                info?.services?.map(
+                                    ( item, index ) =>
+                                    {
+                                        return (
+                                            <div 
+                                                className="flex items-center gap-2"
+                                                key={ index }
+                                            >
+                                                <div>
+                                                    {
+                                                        item.name
+                                                    }:
+                                                </div>
+                                                <div
+                                                    className='text-red-color '
+                                                >
+                                                    {
+                                                        getFormatPrice(  item.amount )
+                                                    }
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                )
                             }
-                            {get_type_service(info?.service_radio) || 'Không có yêu cầu'}
-                        </div>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <div className=' font-semibold min-w-[150px]'>
-                            Giờ nhận phòng:
-                        </div>
-                        <div className='flex items-center gap-2'>
-                            {info?.time.start_time || 'Không có yêu cầu'}
-                        </div>
-                    </div>
-                    <div className='flex items-center gap-4'>
-                        <div className=' font-semibold min-w-[150px]'>
-                            Giờ trả phòng:
-                        </div>
-                        <div className=''>
-                            {info?.time.end_time || 'Không có yêu cầu'}
                         </div>
                     </div>
                     <div className='flex items-center gap-4'>
@@ -105,7 +131,7 @@ function BookingStepTwo({handle_set_step}) {
                 </div>
                 <div className='px-4 py-2 rounded-md bg-red-color text-white hover:shadow-lg hover:shadow-red-color/70 hover:scale-105 active:scale-95 duration-150 select-none'
                     onClick={
-                        () => handle_set_step(3)
+                        handle_submit
                     }
                 >
                     Tiếp tục

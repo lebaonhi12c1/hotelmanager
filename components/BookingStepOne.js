@@ -6,17 +6,17 @@ import {AiOutlineInfoCircle} from 'react-icons/ai'
 import validator from 'validator';
 import { useEffect } from 'react';
 import { cartContext } from '@/context/cart';
+import useSWR from 'swr'
+import { GET_SERVICE } from '@/api_variables';
+import LoadingItem from './LoadingItem';
+import { get_data } from '@/hooks/api';
 function BookingStepOne({handle_set_step}) {
-    const [order, set_order] = useState('')
-    const { total } = useContext( cartContext )
-    const [time, set_time] = useState(
-        {
-            start_time: '',
-            end_time: '',
-        }
+    const { data, isLoading } = useSWR(
+        GET_SERVICE,
+        get_data
     )
-    const [service_radio, set_service_radio] = useState('one')
-    const [service_checkbox, set_service_checkbox] = useState([])
+    const { services, set_services, item_payment, total_services } = useContext( cartContext )
+    // const [ services, set_services ] = useState([])    
     const [info, set_info] = useState(null)
     const [validate_email, set_validate_email] = useState(false)
     const [validate_phone, set_validate_phone] = useState(false)
@@ -27,6 +27,18 @@ function BookingStepOne({handle_set_step}) {
             email: true
         }
     )
+    const handle_services = (e) =>
+    {
+        const value = e.target.value; // Giá trị JSON của ô checkbox đã chọn
+        const isChecked = e.target.checked; // Trạng thái của ô checkbox (đã chọn hoặc không)
+
+        // Cập nhật giá trị đã chọn dựa trên trạng thái của ô checkbox
+        if (isChecked) {
+            set_services((prevSelectedValues) => [...prevSelectedValues, JSON.parse(value)]);
+        } else {
+            set_services((prevSelectedValues) => prevSelectedValues.filter((item) => JSON.stringify(item) !== value));
+        }
+    }
     const handle_set_username = e =>
     {
         set_validate_empty({...validate_empty, username: validator.isEmpty(e.target.value)})
@@ -73,11 +85,8 @@ function BookingStepOne({handle_set_step}) {
         localStorage.setItem('payment', JSON.stringify(
             {
                 info,
-                service_checkbox,
-                service_radio,
-                time,
-                order,
-                total: total,
+                total: item_payment.price,
+                services,
             }
         ))
         handle_set_step(2)
@@ -89,10 +98,7 @@ function BookingStepOne({handle_set_step}) {
         {
             const payment = JSON.parse(localStorage.getItem('payment'))
             set_info(payment.info)
-            set_service_checkbox(payment.service_checkbox)
-            set_service_radio(payment.service_radio)
-            set_order(payment.order)
-            set_time(payment.time)
+            set_services( payment.services )
         }
         if(JSON.parse(localStorage.getItem('payment'))?.info)
         {
@@ -105,19 +111,6 @@ function BookingStepOne({handle_set_step}) {
             )
         }
     },[])
-    
-    const handleCheckboxChange = (event) => 
-    {
-        const { value, checked } = event.target;
-        if (checked) {
-          // Nếu checkbox được chọn, thêm giá trị vào mảng
-          set_service_checkbox([...service_checkbox, value]);
-        } else {
-          // Nếu checkbox bị bỏ chọn, loại bỏ giá trị khỏi mảng
-          const updatedValues = service_checkbox.filter((item) => item !== value);
-          set_service_checkbox(updatedValues);
-        }
-    };
     
     return (
         <div>
@@ -193,92 +186,52 @@ function BookingStepOne({handle_set_step}) {
                                 Yêu cầu đặt biệt
                             </div>
                            <div className='p-4 rounded-lg flex flex-col gap-4 bg-white'>
-                                <div className=' grid grid-cols-1 lg:grid-cols-2 gap-2' >
-                                    <div className='flex items-cetner gap-4'>
-                                        <input type="checkbox" id="no_smoking"
-                                            value={'no-smoking'}
-                                            checked={service_checkbox.includes('no-smoking')}
-                                            onChange={handleCheckboxChange}
-                                        />
-                                        <label htmlFor="no_smoking">
-                                            Không hút thuốc
-                                        </label>
-                                        
-                                    </div>
-                                    <div className='flex items-cetner gap-4'>
-                                        <input type="checkbox" id="floor"
-                                            value={'floor'}
-                                            checked={service_checkbox.includes('floor')}
-                                            onChange={handleCheckboxChange}
-                                        />
-                                        <label htmlFor="floor">
-                                            Tần lầu
-                                        </label>
-                                        
-    
-                                    </div>
-                                    <div className='flex items-baseline gap-4'>
-                                        <input type="checkbox" id="interconnecting_room"
-                                            value={'over-rooms'}
-                                            checked={service_checkbox.includes('over-rooms')}
-                                            onChange={handleCheckboxChange}
-                                        />
-                                        <label htmlFor="interconnecting_room">
-                                            Phòng liên thông
-                                        </label>
-                                        
-                                    </div>
-                                    <div className='flex flex-col gap-2'>
-                                        <div> Loại phòng</div>
-                                        <div className='flex items-center gap-4'>
-                                            <div className='flex items-cetner gap-4'>
-                                                <input type="radio" id="one_bed" name='bed' checked
-                                                    value={'one'}
-                                                    onChange={e=>set_service_radio(e.target.value)}                                                
-                                                />
-                                                <label htmlFor="one_bed">
-                                                    Giường đơn
-                                                </label>
-    
-                                            </div>
-                                            <div className='flex items-cetner gap-4'>
-                                                <input type="radio" id="lg_bed" name='bed'
-                                                    value={'two'}
-                                                    onChange={e=>set_service_radio(e.target.value)}                                                
-                                                />
-                                                <label htmlFor="lg_bed">
-                                                    Giường lớn
-                                                </label>
-                                                
-                                            </div>
+                                {
+                                    isLoading ?
+                                    (
+                                        <div className="flex justify-center">
+                                            <LoadingItem/>
                                         </div>
-                                    </div>
-                                    <div className='flex flex-col gap-2'>
-                                        <label htmlFor="enter_time">
-                                            Giờ nhận phòng
-                                        </label>
-                                        <input type="time" id="enter_time" name='enter_time' className='border rounded-lg px-2'
-                                            onChange={e=>set_time({...time, start_time: e.target.value})}                                        
-                                        />
-                                    </div>
-                                    <div className='flex flex-col gap-2'>
-                                        <label htmlFor="enter_time">
-                                            Giờ trả phòng
-                                        </label>
-                                        <input type="time" id="enter_time" name='enter_time' className='border rounded-lg px-2'
-                                            onChange={e=>set_time({...time, end_time: e.target.value})}                                        
-                                        />
-                                    </div>
-                                </div>
-                                <div className='flex flex-col gap-4'>
-                
-                                    <label htmlFor="more">
-                                        Khác
-                                    </label>
-                                    <textarea name="" id="" rows="5" placeholder='Nhập yêu cầu...' className='p-4 border rounded-lg focus-visible:outline-primary focus-within:border-white'
-                                        onChange={e=>set_order(e.target.value)}
-                                    ></textarea>
-                                </div>
+                                    ) :
+                                    (
+                                        <div className="">
+                                            {
+                                                data?.map(
+                                                    ( item, index ) =>
+                                                    {
+                                                        return (
+                                                            <div 
+                                                                className="flex items-center gap-4"
+                                                                key={ index }
+                                                            >
+                                                                <input 
+                                                                    type="checkbox"
+                                                                    id= { item.id }
+                                                                    value= {JSON.stringify( item ) }
+                                                                    onChange={ handle_services }
+                                                                    checked={services.some((selectedItem) => JSON.stringify(selectedItem) === JSON.stringify(item))}
+                                                                />
+                                                                <label htmlFor={ item.id }
+                                                                    className='flex items-center gap-2'
+                                                                >
+                                                                    { item.name }
+                                                                    <div
+                                                                        className=' text-red-color'
+                                                                    >
+                                                                        {
+                                                                            getFormatPrice( item.amount )
+                                                                        }
+                                                                    </div>
+                                                                </label>
+
+                                                            </div>
+                                                        )
+                                                    }
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }        
                            </div>
                             
                         </div>
@@ -300,7 +253,7 @@ function BookingStepOne({handle_set_step}) {
                                         Thành tiền 
                                     </div>
                                     <div className=' font-semibold text-red-color'>
-                                        {getFormatPrice(total)}
+                                        {getFormatPrice(item_payment?.price + total_services )}
                                     </div>
                                 </div>
                                 <div className='flex gap-2 pb-4 border-b'>

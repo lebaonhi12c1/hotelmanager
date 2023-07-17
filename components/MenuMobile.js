@@ -54,18 +54,20 @@ function MenuMobile({isOpen}) {
                 <VscAccount fontSize={20}/>
                 <div>Đăng nhập</div>
             </Link>
-            <div
+            <a
                 className='flex items-center gap-4'
+                href={ `mailTo:hotelWgmail.com` }
             >
                 <VscMail fontSize={20}/>
                 <div>hotelWgmail.com</div>
-            </div>
-            <div
+            </a>
+            <a
                 className='flex items-center gap-4'
+                href='tel:0123456789'
             >
                 <VscCallIncoming fontSize={20}/>
                 <div>0123456789</div>
-            </div>
+            </a>
             <div
                 className='flex flex-col gap-4'
             >

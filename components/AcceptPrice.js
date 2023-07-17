@@ -5,17 +5,26 @@ import ClientOption from './ClientOption';
 import {FiChevronDown} from 'react-icons/fi'
 import { useRouter } from 'next/navigation';
 import { filterContext } from '@/context/filter';
-import { format } from 'date-fns';
-function AcceptPrice(props) {
+import { getToastError } from '@/hooks/toast';
+function AcceptPrice( { button_title }) {
     const {filter, setFilter} = useContext(filterContext)
     const [isClientOption,setIsClientOption] = useState(false)
     const route = useRouter()
     const handleFilterRooms = () =>
     {
-        route.push(`/rooms?query=${JSON.stringify(filter)}`)
+        if( new Date( filter.startDate ).getTime() > new Date( filter.endDate ).getTime() )
+        {
+            getToastError( 'Khoảng ngày đến và ngày đi của bạn không hợp lệ', 5000)
+            return;
+        }
+
+        route.push(`/rooms?${ new URLSearchParams( {...filter, child: JSON.stringify( filter.child ) } ).toString() }`)
     }
     return (
         <div className='flex flex-col gap-4'>
+            {
+                JSON.stringify( filter )
+            }
             <div>
                 Kiểm tra phòng và giá cả
             </div>
@@ -27,7 +36,7 @@ function AcceptPrice(props) {
                         </div>
                         <input
                             type='date'
-                            defaultValue={filter.startDate}
+                            value={filter.startDate}
                             onChange={(e)=>{
                                 setFilter(
                                     {
@@ -43,7 +52,7 @@ function AcceptPrice(props) {
                             Trả phòng
                         </div>
                         <input type="date" 
-                            defaultValue={filter.endDate}
+                            value={filter.endDate}
                             onChange={(e)=>{
                                 setFilter(
                                     {
@@ -66,7 +75,7 @@ function AcceptPrice(props) {
                     </div>
                     <div className='flex items-center justify-between'>
                         <span>
-                            {filter.adult + filter.child} khách
+                            { filter.adult } khách, { filter.child.length } trẻ em
                         </span>
                         <div>
                             <FiChevronDown/>
@@ -77,7 +86,9 @@ function AcceptPrice(props) {
                 <div className='bg-primary text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0 rounded-lg hover:shadow-primary/70 hover:shadow-lg duration-150 active:scale-95 select-none cursor-pointer'
                     onClick={handleFilterRooms}
                 >
-                    nhận giá
+                    {
+                        button_title
+                    }
                 </div>
             </div>
         </div>

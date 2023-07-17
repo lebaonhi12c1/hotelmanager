@@ -37,11 +37,12 @@ const getAlert = (message = 'Có lỗi xảy ra trong quá trình thực hiện'
 
 const getFormatPrice = value =>
 {
+
     if(check_empty(value))
     {
         return 0 + ' VND'
     }
-    return value.toLocaleString('en-US') + ' VND'
+    return Number(value).toLocaleString('en-US') + ' VND'
 }
 
 const check_empty = value =>

@@ -1,8 +1,11 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import ServiceRoom from './ServiceRoom';
 import { uid } from 'uid';
 import Image from 'next/image';
-const CardInfoRoomPayment = memo(( { value } ) => {
+import { cartContext } from '@/context/cart';
+const CardInfoRoomPayment = memo(( ) => {
+
+    const { item_payment }  = useContext( cartContext )
 
     return (
         <div>
@@ -13,7 +16,7 @@ const CardInfoRoomPayment = memo(( { value } ) => {
                     </div>
                     <div className=' font-semibold'>
                         {
-                            value?.startDate
+                            item_payment?.startDate
                         }
                     </div>
                 </div>
@@ -23,7 +26,7 @@ const CardInfoRoomPayment = memo(( { value } ) => {
                     </div>
                     <div className=' font-semibold'>
                         {
-                            value?.endDate
+                            item_payment?.endDate
                         }
                     </div>
                 </div>
@@ -31,7 +34,7 @@ const CardInfoRoomPayment = memo(( { value } ) => {
             <div className='p-4 flex flex-col gap-4'>
                 <div className=' font-semibold'>
                     {
-                        value?.name
+                        item_payment?.name
                     }
                 </div>
                 <div className='flex flex-col gap-1'>
@@ -41,7 +44,7 @@ const CardInfoRoomPayment = memo(( { value } ) => {
                         </div>
                         <div>
                             {
-                                value?.capacity
+                                item_payment?.capacity
                             }
                         </div>
                     </div>
@@ -50,14 +53,14 @@ const CardInfoRoomPayment = memo(( { value } ) => {
                             kiểu giường
                         </div>
                         <div>
-                            value
+                            item_payment
                         </div>
                     </div> */}
                 </div>
                 <div className='flex gap-4'>
                     <div className='relative w-[80px] h-[60px]'>
                         <Image
-                            src={'https://img.freepik.com/free-photo/yellow-living-room-interior-with-free-space_43614-934.jpg?w=900&t=st=1687875896~exp=1687876496~hmac=2edf299d279c4de19ba04701f1f09b83945f926b446f291de5ab1963ec26d4fd'}
+                            src={ item_payment?.ImageRooms[0]?.value }
                             fill
                             loading='lazy'
                             alt='room-image'
@@ -65,7 +68,7 @@ const CardInfoRoomPayment = memo(( { value } ) => {
                         />
                     </div>
                     <div>
-                        { value?.utilities.map(item =>
+                        { item_payment?.utilities?.map(item =>
                         {
                             return (
                                 <ServiceRoom

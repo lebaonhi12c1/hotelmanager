@@ -44,17 +44,17 @@ export default function Login() {
         
         set_user_info(
             {
-                ...result.data.user,
-                displayName: result.data.user.name,
-                photoURL: result.data.user.image? result.data.user.image : 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?w=1380&t=st=1688480006~exp',
+                ...result.data,
+                displayName: result.data.name,
+                photoURL: result.data.image? result.data.image : 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?w=1380&t=st=1688480006~exp',
                 token: result.data.token
             }
         )
         localStorage.setItem('user',JSON.stringify(
             {
-                ...result.data.user,
-                displayName: result.data.user.name,
-                photoURL: result.data.user.image? result.data.user.image : 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?w=1380&t=st=1688480006~exp',
+                ...result.data,
+                displayName: result.data.name,
+                photoURL: result.data.image? result.data.image : 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?w=1380&t=st=1688480006~exp',
                 token: result.data.token
             }
         ))

@@ -22,7 +22,7 @@ function SliderMobile({height = 250, data = images}) {
                             <SwiperSlide key={uid(10)}>
                                 <div className='relative' style={{height: height + 'px'}}>
                                     <ImageConainer
-                                        value = { item }
+                                        value = { item.value }
                                     />
                                 </div>
                             </SwiperSlide>

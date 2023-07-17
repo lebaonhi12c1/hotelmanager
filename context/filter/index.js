@@ -10,7 +10,7 @@ const FilterContext = ({ children }) =>
             startDate: format(new Date(), 'yyyy-MM-dd'),
             endDate: format(new Date().setDate((new Date().getDate() +1)), 'yyyy-MM-dd'),
             adult: 2,
-            child: 0,
+            child: [],
         }
     )
     return (

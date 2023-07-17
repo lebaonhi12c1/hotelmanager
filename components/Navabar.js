@@ -54,8 +54,8 @@ function Navabar(props) {
                 <div className="root-container flex items-center h-full border-b ">
                     <div className="flex items-center gap-4 flex-1">
                         <Link href={'/'}>
-                            <div className="lg:text-[24px] text-[16px] font-bold text-secondary">
-                                Hotelmix.vn
+                            <div className="lg:text-[24px] text-[16px]  text-secondary">
+                                Khách Sạn QN
                             </div>
                         </Link>
                         <div className="border h-[40px] border-slate-300 hidden lg:block"></div>
@@ -87,18 +87,20 @@ function Navabar(props) {
                                 onMouseEnter={ () => set_user_option( true ) }
                                 onMouseLeave={ () => set_user_option( false ) }
                             >
-                                <ImageConainer
-                                    value = { user.photoURL }
-                                    height = { 24 }
-                                    width = { 24 }
-                                />
+                                <div 
+                                    className=" rounded-full border-2 h-[24px] w-[24px] overflow-hidden"
+                                >
+                                    <ImageConainer
+                                        value = { user.photoURL }
+                                    />
+                                </div>
                                 <div className="text-primary">
                                     {user.displayName}
                                 </div>
                                 {
                                     user_option &&
                                     (
-                                        <div className="absolute flex flex-col gap-2 bg-white top-full left-0 rounded-lg shadow-lg shadow-slate-300 w-[200px] p-4">
+                                        <div className="absolute flex flex-col gap-2 bg-white top-full left-0 rounded-lg shadow-lg shadow-slate-300 w-[200px] p-4 z-[200]">
                                             {/* <div className="hover:text-primary hover:underline cursor-pointer" >
                                                 Phòng đã đặt
                                             </div> */}
@@ -151,36 +153,60 @@ function Navabar(props) {
                             </div>
                         </Link>
                     </div>
-                    <div onClick={() => setIsMenu(!isMenu)} className="lg:hidden">
-                        {isMenu ? (
-                            <motion.div
-                                initial={{
-                                    opacity: 0,
-                                }}
-                                animate={{
-                                    opacity: 1,
-                                }}
-                                exit={{
-                                    opacity: 0,
-                                }}
+                    <div 
+                        className="flex items-center gap-4 lg:hidden"
+                    >
+                        <Link 
+                            href={
+                                `/cart`
+                            }
+                        >
+                            <div 
+                                className="relative"
                             >
-                                <VscClearAll fontSize={20} />
-                            </motion.div>
-                        ) : (
-                            <motion.div
-                                initial={{
-                                    opacity: 0,
-                                }}
-                                animate={{
-                                    opacity: 1,
-                                }}
-                                exit={{
-                                    opacity: 0,
-                                }}
-                            >
-                                <VscListSelection fontSize={20} />
-                            </motion.div>
-                        )}
+                                <BiBed
+                                    className="text-[24px]"
+                                />
+                                <div
+                                    className=" absolute top-0 right-full w-fit bg-red-color rounded-md text-[12px] text-white px-1"
+                                >
+                                    {
+                                        cart.length
+                                    }   
+                                </div>
+                            </div>
+                        </Link>
+                        <div onClick={() => setIsMenu(!isMenu)} className="lg:hidden">
+                            {isMenu ? (
+                                <motion.div
+                                    initial={{
+                                        opacity: 0,
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                    }}
+                                    exit={{
+                                        opacity: 0,
+                                    }}
+                                >
+                                    <VscClearAll fontSize={20} />
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    initial={{
+                                        opacity: 0,
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                    }}
+                                    exit={{
+                                        opacity: 0,
+                                    }}
+                                >
+                                    <VscListSelection fontSize={20} />
+                                </motion.div>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <MenuMobile isOpen={isMenu} handleClose={setIsMenu} />

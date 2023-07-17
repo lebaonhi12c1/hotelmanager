@@ -58,7 +58,7 @@ const ListCart = memo(() => {
                                     Không có phòng nào được chọn
                                 </div>
                                 <Link
-                                   href={`/rooms?query=${ JSON.stringify(filter) }`}
+                                   href={`/rooms?${ new URLSearchParams( {...filter, child: JSON.stringify( filter.child ) } ).toString() }`}
                                 >
                                     <Button
                                         type = 'primary'

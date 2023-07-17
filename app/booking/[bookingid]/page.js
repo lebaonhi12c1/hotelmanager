@@ -10,23 +10,23 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 function Booking(props) {
     const [step, set_step] = useState(1)
-    const router = useRouter()
+    // const router = useRouter()
     const handle_set_step = useCallback((value) =>
     {   
         set_step(value)
     },[])
 
-    useEffect(
-        () =>
-        {
-            if( JSON.parse( localStorage.getItem( 'cart' ) ).length > 0 )
-            {
-                return
-            }
-            router.push( '/' )
-        },
-        [router]
-    )
+    // useEffect(
+    //     () =>
+    //     {
+    //         if( JSON.parse( localStorage.getItem( 'cart' ) ).length > 0 )
+    //         {
+    //             return
+    //         }
+    //         router.push( '/' )
+    //     },
+    //     [router]
+    // )
 
     const get_step_component = () =>
     {

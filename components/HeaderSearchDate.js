@@ -1,6 +1,6 @@
 'use client'
 
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import {motion} from 'framer-motion'
 import { useEffect } from "react";
@@ -8,10 +8,16 @@ import ControlPage from "./ControlPage";
 import { useReponsive } from "@/hooks";
 import ClientOption from "./ClientOption";
 import {FiChevronDown} from 'react-icons/fi'
+import { filterContext } from "@/context/filter";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { getToastError } from "@/hooks/toast";
 function HeaderSearchDate(props) {
     const responesive = useReponsive()
+    const { filter ,setFilter } = useContext( filterContext )
     const [isShow, setShow] = useState(false)
     const [showOption, setShowOption] = useState(false)
+    const router = useRouter()
     useEffect(()=>
     {
         const handleScroll = () =>
@@ -21,6 +27,17 @@ function HeaderSearchDate(props) {
         window.addEventListener('scroll',handleScroll)
         return () => window.removeEventListener('scroll',handleScroll)
     },[])
+
+    const handle_filter_room = () =>
+    {
+        if( new Date( filter.startDate ).getTime() > new Date( filter.endDate ).getTime() )
+        {
+            getToastError( 'Khoảng ngày đến và ngày đi của bạn không hợp lệ', 5000)
+            return;
+        }
+        
+        router.push( `/rooms?${ new URLSearchParams( {...filter, child: JSON.stringify( filter.child ) } ).toString() }` )
+    }
     return (
         isShow && 
         !responesive &&
@@ -47,7 +64,9 @@ function HeaderSearchDate(props) {
                                     Nhận phòng
                                 </div>
                                 <input
+                                    value={ filter.startDate}
                                     type="date"
+                                    onChange={ (e) => setFilter( { ...filter, startDate: e.target.value})}
                                 />
                             </div>
                             <div className=" border border-slate-900 p-2 w-full bg-white">
@@ -55,7 +74,9 @@ function HeaderSearchDate(props) {
                                     Trả phòng
                                 </div>
                                 <input
+                                    value={ filter.endDate}
                                     type="date"
+                                    onChange={ (e) => setFilter( { ...filter, endDate: e.target.value})}
                                 />
                             </div>
                         </div>
@@ -64,12 +85,14 @@ function HeaderSearchDate(props) {
                         >
                             <div>
                                 <div className="text-[10px] text-slate-400">Phỏng</div>
-                                <div className="flex items-center">2 khách</div>
+                                <div className="flex items-center">{ filter.adult} khách, { filter.child.length } trẻ em</div>
                             </div>
                             <FiChevronDown/>
                             {showOption && <ClientOption isOpen={true} handleClose={setShowOption}/>}
                         </div>
-                        <div className="bg-secondary text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0">
+                        <div className="bg-secondary hover:bg-white hover:text-black text-white uppercase flex items-center justify-center font-bold p-4 lg:p-0 h-full cursor-pointer"
+                            onClick={ handle_filter_room }
+                        >
                             nhận giá
                         </div>
                     </div>

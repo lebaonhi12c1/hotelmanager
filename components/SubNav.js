@@ -10,7 +10,7 @@ import useSWR from 'swr'
 import { uid } from 'uid';
 
 function SubNav(props) {
-    const {data} = useSWR(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/api/room-type`, get_data)
+    const {data} = useSWR(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/api/room-type?status=published`, get_data)
     const [category_hover, set_category_hover] = useState(false)
     const route = usePathname()
     const getActive = value =>
@@ -41,7 +41,7 @@ function SubNav(props) {
                             data?.map(item=>
                             (
                                 <Link className=" italic text-slate-400 hover:text-primary"
-                                    href={`/rooms/${item._id}`}
+                                    href={`/rooms/${item.code}`}
                                     key={uid(10)}
                                 >
                                     {item.name}
@@ -58,7 +58,7 @@ function SubNav(props) {
                 Thông tin giới thiệu
             </Link>
             <Link
-                className={`${getActive('about') && 'bg-primary text-white'} hover:bg-primary/70 py-1 px-4 duration-150 hover:text-white`} 
+                className={`${getActive('gallery') && 'bg-primary text-white'} hover:bg-primary/70 py-1 px-4 duration-150 hover:text-white`} 
                 href={'/gallery'}
             >
                 Bộ sưu tập
