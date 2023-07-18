@@ -82,7 +82,7 @@ export default function Home() {
     //     for (let index = 0; index < 4; index++) {
     //         var res = await post_data( 'http://localhost:8800/api/room', 
     //         {
-    //             "code": "ROOM001" + index,
+    //             "code": "ROOM101" + index,
     //             "name": "Standard Room" + index,
     //             "description": "A comfortable room with basic amenities.",
     //             "price": 55000,
@@ -98,8 +98,8 @@ export default function Home() {
     //                 },
     //             ],
     //             "capacity": 2,
-    //             "roomType": 1, // Chỉ số id của loại phòng trong bảng RoomTypes
-    //             "employee": 1, // Chỉ số id của nhân viên trong bảng Employees
+    //             "roomType": 2, // Chỉ số id của loại phòng trong bảng RoomTypes
+    //             "employee": 2, // Chỉ số id của nhân viên trong bảng Employees
     //             "status": "published",
     //         },
     //         console.log(res)

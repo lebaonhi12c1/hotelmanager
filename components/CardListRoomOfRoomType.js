@@ -10,7 +10,7 @@ const CardListRoomOfRoomType = memo(( { value } ) => {
             className='grid grid-cols-3 gap-4 border-2 rounded-lg p-2'
         >
             <ImageConainer
-                value={ value?.ImageRooms[0].value}
+                value={ value?.ImageRooms[0]?.value}
                 height={300}
             />
             <div
