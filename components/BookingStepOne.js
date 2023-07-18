@@ -209,7 +209,7 @@ function BookingStepOne({handle_set_step}) {
                                                                     id= { item.id }
                                                                     value= {JSON.stringify( item ) }
                                                                     onChange={ handle_services }
-                                                                    checked={services.some((selectedItem) => JSON.stringify(selectedItem) === JSON.stringify(item))}
+                                                                    checked={services?.some((selectedItem) => JSON.stringify(selectedItem) === JSON.stringify(item))}
                                                                 />
                                                                 <label htmlFor={ item.id }
                                                                     className='flex items-center gap-2'
