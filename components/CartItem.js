@@ -26,7 +26,7 @@ const CartItem = memo(({value}) => {
 
                 >
                     <ImageConainer
-                        value={value?.ImageRooms[0].value }
+                        value={value?.ImageRooms[0]?.value }
                         height={200}
                     />
                 </div>
@@ -56,7 +56,7 @@ const CartItem = memo(({value}) => {
                                     className='font-medium'
                                 >
                                     {
-                                        value.startDate
+                                        value?.startDate
                                     }
                                 </span>
                             </div>
@@ -70,7 +70,7 @@ const CartItem = memo(({value}) => {
                                     className='font-medium'
                                 >
                                     {
-                                        value.endDate
+                                        value?.endDate
                                     }
                                 </span>
                             </div>

@@ -22,9 +22,6 @@ function AcceptPrice( { button_title }) {
     }
     return (
         <div className='flex flex-col gap-4'>
-            {
-                JSON.stringify( filter )
-            }
             <div>
                 Kiểm tra phòng và giá cả
             </div>

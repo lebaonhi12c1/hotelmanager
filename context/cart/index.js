@@ -107,7 +107,8 @@ const CartContext = ({ children }) =>
 
     const handle_remove_item = value =>
     {
-        set_cart(cart.filter(item => item._id!== value._id))
+
+        set_cart(cart.filter(item => item.code!== value.code))
        
     }
 

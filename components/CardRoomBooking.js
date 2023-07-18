@@ -39,7 +39,7 @@ function CardRoomBooking(props) {
                         className='text-red-color'
                     >
                         {
-                            getFormatPrice( item_payment.price )
+                            getFormatPrice( item_payment?.price )
                         }
                     </div>
                 </div>

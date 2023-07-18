@@ -117,6 +117,7 @@ function BookingStepThree({handle_set_step}) {
             return
         }
         localStorage.removeItem( 'payment' )
+        localStorage.removeItem( 'services')
         getAlert( result.message, 'success', 5000, true)
 
         return
