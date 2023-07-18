@@ -121,7 +121,7 @@ const CartContext = ({ children }) =>
     const get_total_services = () =>
     {
         set_total_services(
-            services.reduce(
+            services?.reduce(
                 ( total, item ) => total + Number(item.amount),
                 0
             )
