@@ -44,7 +44,7 @@ function CardRoomBooking(props) {
                     </div>
                 </div>
                 {
-                    services.map(
+                    services?.map(
                         (item, index) =>
                         {
                             return (
