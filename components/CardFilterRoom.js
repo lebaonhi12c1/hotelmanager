@@ -31,7 +31,7 @@ function CardFilterRoom({value}) {
                     <div
                         className='flex flex-col gap-1'
                     >
-                        <ImageConainer value= { value?.ImageRoomTypes[0].value } height={150}/>
+                        <ImageConainer value= { value?.ImageRoomTypes[0]?.value } height={150}/>
                         <div
                             className='grid grid-cols-3 gap-1'
                         >
