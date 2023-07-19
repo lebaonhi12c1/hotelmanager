@@ -11,7 +11,7 @@ import { uid } from 'uid';
 
 function BookingStepTwo({handle_set_step}) {
     const [info, set_info] = useState(null)
-    const { item_payment } = useContext( cartContext )
+    const { item_payment, total_services } = useContext( cartContext )
     useEffect(() =>
     {
         set_info(JSON.parse(localStorage.getItem('payment')))
@@ -118,7 +118,7 @@ function BookingStepTwo({handle_set_step}) {
                             Thành tiền:
                         </div>
                         <div className='text-red-color font-medium'>
-                            {getFormatPrice( info?.total ) || 'Loading...'}
+                            {getFormatPrice( info?.total + total_services ) || 'Loading...'}
                         </div>
                     </div>
                 </div>

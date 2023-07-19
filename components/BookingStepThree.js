@@ -9,7 +9,7 @@ import { CREATE_ORDER } from '@/api_variables';
 import { check_empty, getAlert } from '@/hooks';
 import { userContext } from '@/context/user';
 function BookingStepThree({handle_set_step}) {
-    const { item_payment } = useContext(cartContext)
+    const { item_payment, total_services, services } = useContext(cartContext)
     const { user } = useContext( userContext )
     const get_payment_amount = (item_payment, vnd, service_total) =>
     {
@@ -35,10 +35,7 @@ function BookingStepThree({handle_set_step}) {
                             value: get_payment_amount(
                                 item_payment.price,
                                 vnd.conversion_rates.VND,
-                                JSON.parse( localStorage.getItem('payment'))?.services?.reduce(
-                                    ( total, item ) => total + Number(item.amount),
-                                    0
-                                )
+                                total_services
                             )
                         },
                     },
@@ -69,15 +66,9 @@ function BookingStepThree({handle_set_step}) {
                 room: item_payment.id,
                 checkInDate: item_payment.startDate,
                 checkOutDate: item_payment.endDate,
-                paymentAmount: ( item_payment.price +  JSON.parse( localStorage.getItem('payment'))?.services?.reduce(
-                    ( total, item ) => total + Number(item.amount),
-                    0
-                )) * 0.3,
-                total: ( item_payment.price +  JSON.parse( localStorage.getItem('payment'))?.services?.reduce(
-                    ( total, item ) => total + Number(item.amount),
-                    0
-                )),
-                services: JSON.parse( localStorage.getItem('payment')).services || []
+                paymentAmount: ( item_payment.price +  total_services) * 0.3,
+                total: ( item_payment.price +  total_services),
+                services: services || []
             }    
         )
         
