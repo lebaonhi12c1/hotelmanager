@@ -3,6 +3,7 @@
 import ImageConainer from '@/components/ImageConainer';
 import { userContext } from '@/context/user';
 import React, { useContext } from 'react';
+import ListBookingUser from '@/components/ListBookingUser';
 function Profile(props) {
     const { user } = useContext( userContext )
 
@@ -14,7 +15,7 @@ function Profile(props) {
                 className='grid grid-cols-1 lg:grid-cols-3 gap-4'
             >
                 <div
-                    className='bg-white rounded-lg p-4'
+                    className='bg-white rounded-lg p-4 h-fit'
                 >
                     <ImageConainer
                         value =  { user?.photoURL }
@@ -45,6 +46,9 @@ function Profile(props) {
                         <div>
                             Mật khẩu: <strong> ********** </strong>
                         </div>
+                    </div>
+                    <div>
+                        <ListBookingUser/>
                     </div>
                 </div>
             </div>

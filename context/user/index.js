@@ -6,6 +6,8 @@ export const userContext = createContext();
 const UserContext = ({children}) =>
 {
     const [user, set_user] = useState(null)
+
+    const [ booking_cancel, set_booking_cancel ] = useState( null )
     useEffect(() =>
     {
         const set_user_info = () =>
@@ -29,6 +31,8 @@ const UserContext = ({children}) =>
             value={
                 {
                     user,
+                    booking_cancel,
+                    set_booking_cancel,
                     set_user_info
                 }
             }

@@ -10,7 +10,7 @@ function ModalAcceptPrice({isOpen,handleClose}) {
     const router = useRouter()
     const handel_filter_room = () =>
     {
-        if( new Date( filter.startDate ).getTime() > new Date( filter.endDate ).getTime() )
+        if( new Date( filter.startDate ).getTime() >= new Date( filter.endDate ).getTime() )
         {
             getToastError( 'Khoảng ngày đến và ngày đi của bạn không hợp lệ', 5000)
             return;
