@@ -2,8 +2,7 @@
 
 import React, { memo, useContext } from 'react';
 import ImageConainer from './ImageConainer';
-import { formatDate, formatDateStringToDDMMYYYY, getFormatPrice, isDateInRange } from '@/hooks';
-import { getToastError } from '@/hooks/toast';
+import { formatDate, formatDateStringToDDMMYYYY, getFormatPrice } from '@/hooks';
 import { userContext } from '@/context/user';
 
 const CardBookingUser = memo(( {value } ) => {
@@ -61,11 +60,11 @@ const CardBookingUser = memo(( {value } ) => {
 
     const handle_cancel = async( value ) =>
     {
-        if( isDateInRange( value?.checkInDate, 2))
-        {
-            getToastError( 'Đã quả thời mà bạn được phép hủy phòng' )
-            return
-        }   
+        // if( isDateInRange( value?.checkInDate, 2))
+        // {
+        //     getToastError( 'Đã quả thời mà bạn được phép hủy phòng' )
+        //     return
+        // }   
         
         set_booking_cancel( value )
     }

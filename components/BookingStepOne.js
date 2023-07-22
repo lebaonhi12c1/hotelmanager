@@ -256,6 +256,14 @@ function BookingStepOne({handle_set_step}) {
                                         {getFormatPrice(item_payment?.price + total_services )}
                                     </div>
                                 </div>
+                                <div className="flex items-center justify-between">
+                                    <div className=' font-semibold'>
+                                        Thanh toán trước 
+                                    </div>
+                                    <div className=' font-semibold text-red-color text-[20px]'>
+                                        {getFormatPrice( ( item_payment?.price + total_services ) * 0.3 )}
+                                    </div>
+                                </div>
                                 <div className='flex gap-2 pb-4 border-b'>
                                     <div className='text-primary text-[24px]'>
                                         <AiOutlineInfoCircle/>

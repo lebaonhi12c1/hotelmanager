@@ -81,6 +81,18 @@ function CardRoomBooking(props) {
                     { getFormatPrice( item_payment?.price + total_services ) }
                 </span>
             </div>
+            <div
+                className='flex items-center gap-2 px-3 pb-3'
+            >
+                <span>
+                    Thanh toán trước:
+                </span>
+                <span
+                    className = 'text-red-color font-medium text-[20px]'
+                >
+                    { getFormatPrice( ( item_payment?.price + total_services ) * 0.3 ) }
+                </span>
+            </div>
         </div>
     );
 }
