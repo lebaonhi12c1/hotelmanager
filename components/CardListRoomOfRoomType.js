@@ -3,6 +3,7 @@ import ImageConainer from './ImageConainer';
 import ServiceRoom from './ServiceRoom';
 import { uid } from 'uid';
 import { getFormatPrice } from '@/hooks';
+import { services_rooms } from '@/data';
 
 const CardListRoomOfRoomType = memo(( { value } ) => {
     return (
@@ -26,7 +27,7 @@ const CardListRoomOfRoomType = memo(( { value } ) => {
                 <div
                     className='flex flex-col'
                 >
-                    {
+                    {/* {
                         value?.utilities?.map(
                             item =>
                             {
@@ -37,6 +38,18 @@ const CardListRoomOfRoomType = memo(( { value } ) => {
                                     />
                                 )
                             }
+                        )
+                    } */}
+                    {
+                        services_rooms.map(
+                            item =>
+                            (
+                                <div className=" text-primary"
+                                    key={ uid(10 ) }
+                                >
+                                    { item }
+                                </div>
+                            )
                         )
                     }
                 </div>

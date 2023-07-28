@@ -35,11 +35,11 @@ function HeaderSearchDate(props) {
             getToastError( 'Khoảng ngày đến và ngày đi của bạn không hợp lệ', 5000)
             return;
         }
-        if( new Date( filter.startDate).getTime() < new Date() )
-        {
-            getToastError( 'Khoảng ngày đến và ngày đi của bạn không hợp lệ', 5000)
-            return;
-        }
+        // if( new Date( filter.startDate).getTime() < new Date() )
+        // {
+        //     getToastError( 'Khoảng ngày đến và ngày đi của bạn không hợp lệ', 5000)
+        //     return;
+        // }
         router.push( `/rooms?${ new URLSearchParams( {...filter, child: JSON.stringify( filter.child ) } ).toString() }` )
     }
     return (

@@ -7,6 +7,7 @@ import Button from './Button';
 import { uid } from 'uid';
 import { useRouter } from 'next/navigation';
 import { getFormatPrice } from '@/hooks';
+import { services_rooms } from '@/data';
 const CartItem = memo(({value}) => {
     const  { handle_remove_item, set_item_payment} = useContext(cartContext)
     const router = useRouter()
@@ -78,7 +79,7 @@ const CartItem = memo(({value}) => {
                         <div
                             className='flex items-center gap-4'
                         >
-                            {
+                            {/* {
                                 value?.utilities?.map(
                                     item =>
                                     {
@@ -87,6 +88,16 @@ const CartItem = memo(({value}) => {
                                         )
                                     }
                                 ) || 'Đang cập nhật...'
+                            } */}
+                            {
+                                services_rooms.map(
+                                    item =>
+                                    (
+                                        <div className="text-primary font-medium italic" key={ uid( 10 ) }>
+                                            { item }
+                                        </div>
+                                    )
+                                )
                             }
                         </div>
                         <div

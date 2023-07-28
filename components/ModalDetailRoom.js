@@ -8,6 +8,9 @@ import { roomContext } from '@/context/room';
 import { check_empty } from '@/hooks';
 import { filterContext } from '@/context/filter';
 import { useRouter } from 'next/navigation';
+import { services_bath_rooms, services_rooms } from '@/data';
+import SliderMobile from './SliderMobile';
+import { uid } from 'uid';
 function ModalDetailRoom() {
     const { room, set_room_info } = useContext( roomContext )
     const { filter } = useContext( filterContext )
@@ -17,6 +20,7 @@ function ModalDetailRoom() {
         set_room_info( null )
         router.push( `/rooms?${ new URLSearchParams( {...filter, child: JSON.stringify( filter.child ) } ).toString() }`)
     }
+
     return (
         !check_empty( room ) &&
         <motion.div className='fixed inset-0 grid grid-cols-1 lg:grid-cols-5 bg-black z-[70]'
@@ -33,12 +37,16 @@ function ModalDetailRoom() {
         >
             <div className='lg:col-span-3 bg-black flex items-center justify-center relative'>
                 <div className='relative lg:w-[90%] lg:h-[500px] h-[200px] w-full'>
-                    <Image
+                    {/* <Image
                         src={room?.ImageRoomTypes[0]?.value}
                         fill
                         loading='lazy'
                         alt='room-img'
                         className='object-cover'
+                    /> */}
+                    <SliderMobile
+                        data={ room?.ImageRoomTypes }
+                        height={ 500 }
                     />
                 </div>
                 <div className='absolute bg-white text-[24px] rounded-full p-2 top-4 right-4 cursor-pointer'
@@ -70,22 +78,19 @@ function ModalDetailRoom() {
                             className='flex flex-col gap-2'
                         >
                             {
-                                room.services?.map(
-                                    ( item, index) =>
-                                    {
-                                        return (
-                                            <div className="" key={ index }>
-                                                { item }
-                                            </div>
-                                        )
-                                    }
-                                ) ||
-                                <div
-                                    className='text-slate-500 italic'
-                                >
-                                    Đang cập nhật
-                                </div>
-                            } 
+                                services_rooms?.map(
+                                    item =>
+                                    (
+                                        <div className=" text-red-color italic font-medium"
+                                            key={ uid( 10 ) }
+                                        >
+                                            {
+                                                item
+                                            }
+                                        </div>
+                                    )
+                                )
+                            }
                         </div>
                     </div>
                     <div className='flex flex-col gap-2'>
@@ -104,9 +109,20 @@ function ModalDetailRoom() {
                             Phòng tắm
                         </div>
                         <div
-                            className='text-slate-500 italic'
+                            className='flex flex-col gap-2'
                         >
-                            Đang cập nhật
+                            {
+                                services_bath_rooms?.map(
+                                    item =>
+                                    (
+                                        <div className=" text-primary italic font-medium">
+                                            {
+                                                item
+                                            }
+                                        </div>
+                                    )
+                                )
+                            }
                         </div>
                     </div>
                 </div>

@@ -18,6 +18,7 @@ import { get_data } from '@/hooks/api';
 import ListRoomOfRoomType from '@/components/ListRoomOfRoomType';
 import { filterContext } from '@/context/filter';
 import LoadingItem from '@/components/LoadingItem';
+import { services_bath_rooms, services_rooms } from '@/data';
 
 function RoomDetail({params}) {
 
@@ -98,7 +99,16 @@ function RoomDetail({params}) {
                                                     )) ||
                                                     'Loading...'
                                                 } */}
-                                                Chưa có
+                                               {
+                                                    services_rooms.map(
+                                                        item =>
+                                                        (
+                                                            <div className="text-red-color italic" key={ uid( 10 ) }>
+                                                                {item}
+                                                            </div>
+                                                        )
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                         <div 
@@ -114,7 +124,16 @@ function RoomDetail({params}) {
                                                     )) || 
                                                     'Loading...'
                                                 } */}
-                                                Chưa có
+                                                {
+                                                    services_bath_rooms.map(
+                                                        item =>
+                                                        (
+                                                            <div className="text-primary italic" key={ uid( 10 ) }>
+                                                                {item}
+                                                            </div>
+                                                        )
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +182,7 @@ function RoomDetail({params}) {
                                                             Đêm 1
                                                         </div>
                                                         <div>
-                                                            {getFormatPrice(data?.price) || 'Loading...'}
+                                                            {getFormatPrice(data?.priceBegin) || 'Loading...'}
                                                         </div>
                                                     </div>
                                                     <div className='flex flex-col border-b'>
@@ -172,7 +191,7 @@ function RoomDetail({params}) {
                                                                 Giá phòng
                                                             </div>
                                                             <div>
-                                                                {getFormatPrice(data?.price) || 'Loading...'}
+                                                                {getFormatPrice(data?.priceBegin) || 'Loading...'}
                                                             </div>
                                                         </div>
                                                         <div className='flex items-center justify-between py-2'>
@@ -180,7 +199,7 @@ function RoomDetail({params}) {
                                                                 Thuế và phí
                                                             </div>
                                                             <div>
-                                                                {/* {getFormatPrice(data?.price) || 'Loading...'} */} 0 VND
+                                                                {/* {getFormatPrice(data?.priceBegin) || 'Loading...'} */} 0 VND
                                                             </div>
                                                         </div>
                                                     </div>
@@ -189,7 +208,7 @@ function RoomDetail({params}) {
                                                             Tổng giá tiền
                                                         </div>
                                                         <div>
-                                                            {getFormatPrice(data?.price) || 'Loading...'}
+                                                            {getFormatPrice(data?.priceBegin) || 'Loading...'}
                                                         </div>
                                                     </div>
                                                 </div>

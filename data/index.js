@@ -16,5 +16,22 @@ const images = [
     { value:'https://img.freepik.com/free-photo/japanese-woman-turning-air-purifier_53876-132373.jpg?w=996&t=st=1685190801~exp=1685191401~hmac=7c94339a9db81a757a4f566addd76aa70045acaf43d48195481a131f1d819754'},
     { value:'https://img.freepik.com/premium-photo/modern-interior-bedroom_33739-556.jpg?w=1060'},
 ]
+    
+const services_rooms =
+[
+    'Máy lạnh',
+    'Bàn làm việc',
+    'Ti vi',
+    'Nước đóng chai miên phí',
+    
+]
 
-export {images}
+const services_bath_rooms = 
+[
+    'Vòi tắm đứng',
+    'Bồn tắm',
+    'Bộ vệ sinh cá nhân',
+    'Máy sấy tóc',
+    'Nước nóng',
+]
+export {images, services_bath_rooms, services_rooms}

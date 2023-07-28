@@ -1,6 +1,7 @@
 'use client'
 
 import { roomContext } from "@/context/room";
+import { services_rooms } from "@/data";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { memo } from "react";
@@ -30,7 +31,7 @@ function CardRoomHome({ value }) {
                         </div>
                     </div>
                     <div>
-                        {value?.services?.map(item=>
+                        {/* {value?.services?.map(item=>
                         {
                             return (
                                 <div className=" text-slate-500 flex items-center gap-1" key={uid(10)}>
@@ -38,6 +39,20 @@ function CardRoomHome({ value }) {
                                 </div>
                             )
                         })
+                        } */}
+                        {
+                            services_rooms.map(
+                                item =>
+                                (
+                                    <div className=" text-slate-500 italic font-medium"
+                                        key={ uid( 10 ) }
+                                    >
+                                        {
+                                            item
+                                        }
+                                    </div>
+                                )
+                            )
                         }
                     </div>
                     <div>

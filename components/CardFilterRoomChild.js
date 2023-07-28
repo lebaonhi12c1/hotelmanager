@@ -7,6 +7,8 @@ import {AiOutlineUsergroupAdd} from 'react-icons/ai'
 import { cartContext } from '@/context/cart';
 import { filterContext } from '@/context/filter';
 import { getToastError } from '@/hooks/toast';
+import { services_bath_rooms, services_rooms } from '@/data';
+import { uid } from 'uid';
 
 const CardFilterRoomChild = memo(({value}) => {
     const { filter } = useContext( filterContext )
@@ -64,15 +66,15 @@ const CardFilterRoomChild = memo(({value}) => {
                 </div>
             </div>
             <div
-                className='border-y py-4 flex flex-col lg:flex-row lg:justify-between'
+                className='border-y py-4 grid grid-cols-1 lg:grid-cols-3'
             >
                 <div 
-                    className='flex flex-col gap-4'
+                    className='flex flex-col gap-4 col-span-2'
                 >
                     <div
                         className='flex gap-4 flex-wrap'
                     >
-                        {
+                        {/* {
                             value?.utilities?.map(
                                 item => 
                                 {
@@ -84,8 +86,31 @@ const CardFilterRoomChild = memo(({value}) => {
                                     )
                                 }
                             )
+                        } */}
+                        {
+                            services_rooms.map(
+                                item =>
+                                (
+                                    <div className=""
+                                        key={ uid( 10 ) }
+                                    >
+                                        { item }
+                                    </div>
+                                )
+                            )
                         }
-    
+                        {
+                            services_bath_rooms.map(
+                                item =>
+                                (
+                                    <div className=""
+                                        key={ uid( 10 ) }
+                                    >
+                                        { item }
+                                    </div>
+                                )
+                            )
+                        }
                     </div>
                     <div
                         className='text-slate-500 italic'
@@ -104,7 +129,7 @@ const CardFilterRoomChild = memo(({value}) => {
                         { getFormatPrice(getPrice(value?.price, get_day_of_time(filter.startDate, filter.endDate)))} 
                     </div>
                     <div
-                        className='text-[12px] text-slate-500 flex items-center gap-2'
+                        className='text-[12px] text-slate-500 flex items-center gap-2 justify-end'
                     >
                         <span>
                             {
@@ -118,11 +143,11 @@ const CardFilterRoomChild = memo(({value}) => {
                         </div>
                     </div>
                     <div
-                        className='tooltip text-primary text-[12px] font-medium'
+                        className= { `text-primary text-[12px] font-medium tooltip${value?.id}` }
                     >
                         Giá cuối cùng
                         <Tooltip
-                            anchorSelect='.tooltip'
+                            anchorSelect= {`.tooltip${value?.id}`}
                             variant='dark'
                             place='top'
                         >
