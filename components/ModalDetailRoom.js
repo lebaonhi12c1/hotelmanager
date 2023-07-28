@@ -115,7 +115,7 @@ function ModalDetailRoom() {
                                 services_bath_rooms?.map(
                                     item =>
                                     (
-                                        <div className=" text-primary italic font-medium">
+                                        <div className=" text-primary italic font-medium" key={ uid( 10 ) }>
                                             {
                                                 item
                                             }
