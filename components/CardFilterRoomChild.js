@@ -27,7 +27,6 @@ const CardFilterRoomChild = memo(({value}) => {
             getToastError( 'Bạn phải đăng nhập dể được chọn phòng')
             return 
         }
-        console.log(value)
         handle_add_item(
 
             {

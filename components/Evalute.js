@@ -1,14 +1,15 @@
 'use client'
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {BsPen} from 'react-icons/bs'
 import ControlReview from "./ControlReview";
 import ListComent from "./ListComent";
+import { ratingContext } from "@/context/rating_value";
 function Evalute(props) {
 
     const [ open_control, set_open_control ] = useState( false )
-
+    const { rating } = useContext( ratingContext )
     return (
         <div className="flex flex-col gap-4 bg-white p-4 " id="evalute">
             <div className="font-bold text-[24px]">
@@ -16,7 +17,7 @@ function Evalute(props) {
             </div>
             <div className="flex items-center gap-4">
                 <div className="w-fit p-2 bg-green-400 text-white rounded-md rounded-br-none">
-                    9.4
+                    { rating?.toFixed(1) || '10'}
                 </div>
                 <div className="text-green-400">Rất tốt</div>
             </div>

@@ -3,7 +3,9 @@ import CardListRoomOfRoomType from './CardListRoomOfRoomType';
 import { check_empty } from '@/hooks';
 const ListRoomOfRoomType = memo(( { value } ) => {
     return (
-        <div>
+        <div
+            className=' flex flex-col gap-4'
+        >
             {
                 check_empty( value ) ?
                 (

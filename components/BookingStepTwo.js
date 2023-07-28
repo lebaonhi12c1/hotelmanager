@@ -56,24 +56,24 @@ function BookingStepTwo({handle_set_step}) {
                     Xem lại thông tin đặt phòng
                 </div>
                 <div className='flex flex-col gap-4 bg-slate-100 rounded-lg p-4'>
-                    <div className='flex items-center'>
-                        <div className=' font-semibold min-w-[150px]'>
+                    <div className='flex items-center gap-2'>
+                        <div className=' font-semibold'>
                             Tên khách hàng:
                         </div>
                         <div>
                             {info?.info?.username || 'Loading...'}
                         </div>
                     </div>
-                    <div className='flex items-center'>
-                        <div className=' font-semibold min-w-[150px]'>
+                    <div className='flex items-center gap-2'>
+                        <div className=' font-semibold'>
                             Số điện thoại:
                         </div>
                         <div>
                             {info?.info?.phone || 'Loading...'}
                         </div>
                     </div>
-                    <div className='flex items-center'>
-                        <div className=' font-semibold min-w-[150px]'>
+                    <div className='flex items-center gap-2'>
+                        <div className=' font-semibold'>
                             Email:
                         </div>
                         <div>
@@ -81,7 +81,7 @@ function BookingStepTwo({handle_set_step}) {
                         </div>
                     </div>
                     <div className='flex items-center gap-4'>
-                        <div className=' font-semibold min-w-[150px]'>
+                        <div className=' font-semibold'>
                             Các yêu cầu đặt biệt:
                         </div>
                         <div className='flex items-center gap-4'>

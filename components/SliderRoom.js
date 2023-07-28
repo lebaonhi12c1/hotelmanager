@@ -16,7 +16,6 @@ function SliderRoom({
 }) 
 {
     const {data} = useSWR(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/api/room`, get_data)
-    console.log(data)
     const reponesive = useReponsive()
     return (
         <div className='flex flex-col gap-4'>

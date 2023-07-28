@@ -69,7 +69,7 @@ const ControlReview = memo(( { is_open }) => {
                 }
             </div>
             <div
-                className='flex items-center justify-between gap-4 w-full'
+                className='flex items-center justify-between gap-4 w-full flex-col lg:flex-row'
             >
                 <input
                 

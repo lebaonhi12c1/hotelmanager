@@ -91,13 +91,14 @@ function RoomDetail({params}) {
                                             <div>
                                                 Phòng
                                             </div>
-                                            <div className='flex flex-col gap-2'>
-                                                {data?.utilities_room?.map(item =>
+                                            <div className='flex flex-col gap-2 text-slate-500 italic'>
+                                                {/* {data?.utilities_room?.map(item =>
                                                     (
                                                         <ServiceRoom value={item} key={uid(10)}/>
                                                     )) ||
                                                     'Loading...'
-                                                }
+                                                } */}
+                                                Chưa có
                                             </div>
                                         </div>
                                         <div 
@@ -106,13 +107,14 @@ function RoomDetail({params}) {
                                             <div>
                                                 Phòng tắm
                                             </div>
-                                            <div className='flex flex-col gap-2'>
-                                                {data?.utilities_bath_room?.map(item =>
+                                            <div className='flex flex-col gap-2 text-slate-500 italic'>
+                                                {/* {data?.utilities_bath_room?.map(item =>
                                                     (
                                                         <ServiceRoom value={item} key={uid(10)}/>
                                                     )) || 
                                                     'Loading...'
-                                                }
+                                                } */}
+                                                Chưa có
                                             </div>
                                         </div>
                                     </div>

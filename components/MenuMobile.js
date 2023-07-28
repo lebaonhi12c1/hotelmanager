@@ -1,13 +1,27 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext } from 'react';
 import { VscAccount,VscMail,VscCallIncoming,VscInfo,VscBookmark} from 'react-icons/vsc'
 import {BiBed} from 'react-icons/bi'
 import {motion} from 'framer-motion'
+import useSWR from 'swr'
+import { get_data } from '@/hooks/api';
+import { uid } from 'uid';
+import { userContext } from '@/context/user';
+import { useRouter } from 'next/navigation';
 function MenuMobile({isOpen}) {
+    const {data} = useSWR(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/api/room-type?status=published`, get_data)
+    const { user, set_user_info } = useContext(  userContext )
+    const router = useRouter()
+    const handle_log_out = () =>
+    {
+        localStorage.clear()
+        set_user_info(null)
+        router.push('/')
+    }
     return (
         isOpen &&  
         <motion.div 
-            className=' absolute top-full right-0 bg-white p-4 flex flex-col gap-4 shadow-lg shadow-slate-300'
+            className=' absolute top-full right-0 bg-white p-4 flex flex-col gap-4 shadow-lg shadow-slate-300 max-h-[450px] overflow-auto'
             initial={
                 {
                     x: 100
@@ -47,13 +61,50 @@ function MenuMobile({isOpen}) {
                 placeholder="Enter your content..."
               />
             </div>
-            <Link
-                className='flex items-center gap-4'
-                href={'/login'}
-            >
-                <VscAccount fontSize={20}/>
-                <div>Đăng nhập</div>
-            </Link>
+            {
+                user && 
+                <Link
+                    className='flex items-center gap-4'
+                    href={'/profile'}
+                >
+                    <VscAccount fontSize={20}/>
+                    <div
+                        className=' text-primary'
+                    >
+                        {
+                            user?.name
+                        }
+                    </div>
+                </Link>
+            }
+            {
+                user && 
+                <div
+                    className='flex items-center gap-4'
+                    onClick={
+                        handle_log_out
+                    }
+                >
+                    <VscAccount fontSize={20}/>
+                    <div
+                        className=' text-red-color'
+                    >
+                        Đăng xuất
+                    </div>
+                </div>
+            }
+            {
+                !user &&
+                (
+                    <Link
+                        className='flex items-center gap-4'
+                        href={'/login'}
+                    >
+                        <VscAccount fontSize={20}/>
+                        <div>Đăng nhập</div>
+                    </Link>
+                )
+            }
             <a
                 className='flex items-center gap-4'
                 href={ `mailTo:hotelWgmail.com` }
@@ -77,27 +128,24 @@ function MenuMobile({isOpen}) {
                     <VscInfo fontSize={20}/>
                     <div>Loại phòng</div>
                 </div>
-                <Link className='flex items-center gap-1'
-                    href={`/category/1`}
-                >
-                    <BiBed/>Loại phòng 1
-                </Link>
-                <Link className='flex items-center gap-1'
-                    href={`/category/2`}
-                >
-                    <BiBed/>Loại phòng 2
-                </Link>
-                <Link className='flex items-center gap-1'
-                    href={`/category/3`}
-                >
-                    <BiBed/>Loại phòng 3
-                </Link>
-                <Link className='flex items-center gap-1'
-                    href={`/category/4`}
-                >
-                    <BiBed/>Loại phòng 4
-                </Link>
-
+                {
+                    data?.map(
+                        item =>
+                        {
+                            return (
+                                <Link className='flex items-center gap-1'
+                                    href={`/rooms/${item?.code}`}
+                                    key={ uid( 10 ) }
+                                >
+                                    <BiBed/>
+                                    {
+                                        item?.name
+                                    }
+                                </Link>
+                            )
+                        }
+                    )
+                }
             </div>
             <div
                 className='flex flex-col gap-4'
@@ -114,6 +162,13 @@ function MenuMobile({isOpen}) {
                 >
                     <VscBookmark fontSize={20}/>
                     <div>Giới thiệu về chúng tôi</div>
+                </Link>
+                <Link
+                    className='flex items-center gap-4 p-2'
+                    href={'/gallery'}
+                >
+                    <VscBookmark fontSize={20}/>
+                    <div>Bộ sưu tập</div>
                 </Link>
             </div>
         </motion.div>

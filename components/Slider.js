@@ -18,7 +18,7 @@ function Slider(props) {
         <div className=' grid grid-cols-2 gap-2 h-[475px]'>
             <div className='relative'>
                 <Image
-                    src={images[0]}
+                    src={images[0].value}
                     fill={true}
                     loading={'lazy'}
                     alt='room-image'
@@ -29,7 +29,7 @@ function Slider(props) {
             <div className='grid grid-cols-2 gap-2'>
                 <div className='relative'>
                     <Image
-                        src={images[1]}
+                        src={images[1].value}
                         fill={true}
                         loading={'lazy'}
                         alt='room-image'
@@ -39,7 +39,7 @@ function Slider(props) {
                 </div>
                 <div className='relative'>
                     <Image
-                        src={images[2]}
+                        src={images[2].value}
                         fill={true}
                         loading={'lazy'}
                         alt='room-image'
@@ -50,7 +50,7 @@ function Slider(props) {
                 </div>
                 <div className='relative'>
                     <Image
-                        src={images[3]}
+                        src={images[3].value}
                         fill={true}
                         loading={'lazy'}
                         alt='room-image'
@@ -60,7 +60,7 @@ function Slider(props) {
                 </div>
                 <div className='relative'>
                     <Image
-                        src={images[4]}
+                        src={images[4].value}
                         fill={true}
                         loading={'lazy'}
                         alt='room-image'

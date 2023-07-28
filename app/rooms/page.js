@@ -14,7 +14,6 @@ import LoadingItem from '@/components/LoadingItem';
 
 function RoomDetail({searchParams}) {
 
-    console.log(searchParams)
     // /rooms?${ new URLSearchParams( {...filter, child: JSON.stringify( filter.child ) } ).toString()
     const {data, isLoading} = useSWR(FILTER_ROOMS + `?${ new URLSearchParams( {...searchParams, child: JSON.stringify( searchParams.child ) } ).toString() }`,get_data)
     return (

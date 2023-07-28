@@ -45,7 +45,7 @@ function Booking(props) {
 
     return (
         <div className='root-container'>
-            <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+            <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 center-mobile-element'>
                 <div className='lg:col-span-2'>
                     {get_step_component()}
                 </div>

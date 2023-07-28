@@ -13,7 +13,6 @@ function BookingStepThree({handle_set_step}) {
     const { user } = useContext( userContext )
     const get_payment_amount = (item_payment, vnd, service_total) =>
     {
-        console.log(item_payment, vnd, service_total)
         return (( ( item_payment + service_total ) / vnd ) * 0.3).toFixed(2)
     }
 
@@ -45,7 +44,6 @@ function BookingStepThree({handle_set_step}) {
                 }
             })
             .then((orderID) => {
-                console.log(orderID);
                 return orderID;
             });
     }
@@ -58,7 +56,6 @@ function BookingStepThree({handle_set_step}) {
             return
         }
 
-        console.log(order)
         const result = await post_data( 
             CREATE_ORDER,
             {
@@ -74,7 +71,6 @@ function BookingStepThree({handle_set_step}) {
         
         if( check_empty( result ))
         {
-            console.log('1')
             getAlert(
                 result.message, 
                 'error', 
@@ -85,7 +81,6 @@ function BookingStepThree({handle_set_step}) {
         }
         if( !result )
         {
-            console.log('2')
 
             getAlert(
                 `Có lỗi xảy ra trong quá trình tiếp nhận đơn đơn đặt phòng của bạn, nếu bạn đã thanh toán vui lòng cung cấp mã đơn đặt phòng ${ order.id } thông qua email hoặc số điện thoại để chúng tôi tiến hành hoàn tiền`, 
@@ -97,8 +92,6 @@ function BookingStepThree({handle_set_step}) {
         }
         if( !result.success ) 
         {
-            console.log('3')
-
             getAlert(
                 result.message, 
                 'error', 

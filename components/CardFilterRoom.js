@@ -23,7 +23,7 @@ function CardFilterRoom({value}) {
                 {value?.name}
             </div>
             <div
-                className='grid grid-cols-1 lg:grid-cols-3 gap-4 '
+                className='grid grid-cols-1 lg:grid-cols-3 gap-y-4  lg:gap-4 '
             >
                 <div
                     className='flex flex-col bg-white rounded-lg overflow-hidden h-fit'

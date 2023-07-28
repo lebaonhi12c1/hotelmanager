@@ -9,10 +9,10 @@ function Profile(props) {
 
     return (
         <div
-            className='root-container'
+            className='root-container '
         >
             <div
-                className='grid grid-cols-1 lg:grid-cols-3 gap-4'
+                className='grid grid-cols-1 lg:grid-cols-3 lg:gap-4 gap-y-4 center-mobile-element'
             >
                 <div
                     className='bg-white rounded-lg p-4 h-fit'

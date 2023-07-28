@@ -29,7 +29,7 @@ function SwiperSliderModal({initvalue,isOpen,handleClose}) {
                                 return <SwiperSlide key={uid(10)}>
                                     <div className='relative h-[400px]'>
                                         <Image
-                                            src={item}
+                                            src={item.value}
                                             fill={true}
                                             loading='lazy'
                                             alt='room-img'
@@ -57,7 +57,7 @@ function SwiperSliderModal({initvalue,isOpen,handleClose}) {
                                 <SwiperSlide key={uid(10)}>
                                     <div className={ `relative h-[100px] ${acitve === index && 'border-[4px] border-green-500'}`}>
                                         <Image
-                                            src={item}
+                                            src={item.value}
                                             fill={true}
                                             loading='lazy'
                                             alt='room-img'

@@ -79,26 +79,26 @@ export default function Home() {
 
     // const post = async() =>
     // {
-    //     for (let index = 0; index < 4; index++) {
+    //     for (let index = 0; index < 10; index++) {
     //         var res = await post_data( 'http://localhost:8800/api/room', 
     //         {
-    //             "code": "ROOM101" + index,
-    //             "name": "Standard Room" + index,
+    //             "code": "ROOM401" + index,
+    //             "name": "Deluxe Double Room" + index,
     //             "description": "A comfortable room with basic amenities.",
-    //             "price": 55000,
+    //             "price": 550000 + index * 20000,
     //             "image": [
     //                 {
     //                     valueId: index,
-    //                     value: 'https://img.freepik.com/free-photo/sofa-living-room-with-copy-space_43614-869.jpg?w=996&t=st=1689555721~exp=1689556321~hmac=2265d3ca5d96ee2853c339e37830c512dfc9db4d1b2819ba03f60ac2d46ddecc',
+    //                     value: index % 2 === 0 ? 'https://img.freepik.com/free-photo/interior-bedroom-white-creamy-tones_181624-16134.jpg?w=1380&t=st=1690379890~exp=1690380490~hmac=6bc3deba424e3518edf2ca14a991936989ffc7a19ebb954ed6930498cee873c9' : 'https://img.freepik.com/free-psd/cozy-bedroom-hotel-room-with-double-bed-wooden-furniture_176382-1530.jpg?w=1380&t=st=1690379908~exp=1690380508~hmac=421d810d51ecef3bb0bd20585bd01a5b1f6bca0f68a159f91944530ca11f247e',
 
     //                 },
     //                 {
     //                     valueId: index + 1,
-    //                     value: 'https://img.freepik.com/free-photo/sofa-living-room-with-copy-space_43614-869.jpg?w=996&t=st=1689555721~exp=1689556321~hmac=2265d3ca5d96ee2853c339e37830c512dfc9db4d1b2819ba03f60ac2d46ddecc',
+    //                     value: 'https://img.freepik.com/free-psd/realistic-modern-double-bedroom-with-furniture-frame_176382-439.jpg?w=1380&t=st=1690379936~exp=1690380536~hmac=33cceba36f2cfa3676e95598fd1cce119c65a1db745dc4718e9ca112367df3ec',
     //                 },
     //             ],
     //             "capacity": 2,
-    //             "roomType": 2, // Chỉ số id của loại phòng trong bảng RoomTypes
+    //             "roomType": 4, // Chỉ số id của loại phòng trong bảng RoomTypes
     //             "employee": 2, // Chỉ số id của nhân viên trong bảng Employees
     //             "status": "published",
     //         },
