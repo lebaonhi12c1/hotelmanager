@@ -1,14 +1,14 @@
 'use client'
 import React, { memo } from "react";
 import ImageConainer from "./ImageConainer";
+import { getFormatPrice } from "@/hooks";
 
 function CardFeatrureRoom({ value }) {
-    const formatNumber = number => number.toLocaleString('en-US')
     return (
         <div className="flex flex-col shadow-md shadow-slate-200 hover:shadow-red-color/70 duration-150 rounded-sm overflow-hidden">
             <div className="h-[220px] relative">
                 <ImageConainer
-                    value = { value?.image }
+                    value = { value?.ImageRooms[0]?.value }
                 />
             </div>
             <div className="bg-white p-4 flex flex-col gap-2">
@@ -29,10 +29,12 @@ function CardFeatrureRoom({ value }) {
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="text-[12px] font-bold">
-                        {value.title}
+                        {value?.name}
                     </div>
                     <div className="text-red-500">
-                        {formatNumber(350000)}vnd
+                        {
+                            getFormatPrice( value?.price )
+                        }
                     </div>
                 </div>
             </div>
